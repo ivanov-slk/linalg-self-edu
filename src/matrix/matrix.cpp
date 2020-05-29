@@ -2,7 +2,9 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
+#include <concepts>
 
+#include "../customconcepts.hpp"
 #include "../exceptions.hpp"
 
 /**
@@ -16,7 +18,7 @@
  * - inversion;
  * - etc.
  */
-template <typename T>
+template <Number T> // should be Number T, but IntelliSense shows errors... build is fine, though.
 class Matrix
 {
 private:

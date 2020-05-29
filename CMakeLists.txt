@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 project(MLDLSelfEdu, VERSION 0.0.1)
  
-set(CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 20)
 
 # Include application entrypoint
 add_executable(mldl_self_edu main.cpp)
