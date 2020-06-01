@@ -14,8 +14,8 @@ class ArithmeticInterface
 {
 public:
     virtual ~ArithmeticInterface() = default;
-    virtual T add(T lhs, T rhs) = 0;
-    virtual T subtract(T lhs, T rhs) = 0;
-    virtual T multiply(T lhs, T rhs) = 0;
-    virtual T divide(T lhs, T rhs) = 0;
+    virtual T add(T other) = 0;
+    virtual T subtract(T other) = 0;
+    virtual T multiply(T other) = 0;
+    virtual T divide(T other) = 0;
 };

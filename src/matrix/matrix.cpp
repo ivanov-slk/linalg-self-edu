@@ -6,6 +6,7 @@
 
 #include "../customconcepts.hpp"
 #include "../exceptions.hpp"
+#include "matrixinterface.hpp"
 
 /**
  * @brief A matrix object. Efficiency is not important (at the moment).
@@ -18,13 +19,13 @@
  * - inversion;
  * - etc.
  */
-template <Number T> // should be Number T, but IntelliSense shows errors... build is fine, though.
-class Matrix
+template <Number T>
+class Matrix : public IMatrix<T>
 {
 private:
-    int n_rows = 0;
-    int n_cols = 0;
-    std::vector<std::vector<T>> data;
+    int n_rows = 0; // These are set in the constructor currently, which requires them to be
+    int n_cols = 0; // non-const. At least the data is const... but in any case this is not the best.
+    const std::vector<std::vector<T>> data;
 
 public:
     Matrix() {}
@@ -86,11 +87,15 @@ public:
         return std::make_pair(n_rows, n_cols);
     }
 
-    // /**
-    //  * @brief Adds a matrix to this.
-    //  * @param Matrix other
-    //  * @returns Matrix
-    //  */
+    /**
+     * @brief Adds a matrix to this.
+     * @param Matrix other
+     * @returns Matrix
+     */
+    std::unique_ptr<IMatrix<T>> add(std::unique_ptr<IMatrix<T>> other) override
+    {
+        return std::make_unique<Matrix<T>>(std::vector<std::vector<T>>{{1}});
+    }
     // Matrix<T> add(const Matrix<T> &other)
     // {
     //     if (empty())
