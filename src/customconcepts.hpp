@@ -7,3 +7,17 @@ template <class T>
 concept SignedIntegral = Integral<T> &&std::is_signed<T>::value;
 template <class T>
 concept Number = SignedIntegral<T> || std::is_floating_point_v<T>;
+
+template <class R>
+concept MatrixRepresentation = requires(R x)
+{
+    // typename R::data;
+    {
+        x.empty()
+    }
+    ->std::same_as<bool>;
+};
+
+// template <Number T>
+// concept TypedRepresentation =
+//     requires(MatrixRepresentation<T>{})

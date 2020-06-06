@@ -6,7 +6,6 @@
 
 #include "../customconcepts.hpp"
 #include "../exceptions.hpp"
-#include "matrixinterface.hpp"
 
 /**
  * @brief A matrix object. Efficiency is not important (at the moment).
@@ -18,38 +17,24 @@
  * - addition / subtraction;
  * - inversion;
  * - etc.
+ * 
+ * 
  */
-template <Number T>
-class Matrix : public IMatrix<T>
+// template <Number T, MatrixRepresentation<T> R>
+template <typename T, template <typename> typename C>
+requires Number<T> &&MatrixRepresentation<C<T>>
+    // template <Number T, MatrixRepresentation R>
+    class Matrix
 {
 private:
     int n_rows = 0; // These are set in the constructor currently, which requires them to be
     int n_cols = 0; // non-const. At least the data is const... but in any case this is not the best.
-    const std::vector<std::vector<T>> data;
+    const C<T> representation;
 
 public:
     Matrix() {}
-    Matrix(const std::vector<std::vector<T>> &data) : data(data)
+    Matrix(const std::vector<std::vector<T>> &data) : representation(data)
     {
-        if (data.empty())
-        {
-            n_rows = 0;
-            n_cols = 0;
-        }
-        else
-        {
-            n_rows = data.size();
-            int temp_cols = data[0].size();
-            for (std::vector<T> element : data)
-            {
-                if (element.size() != temp_cols)
-                {
-                    throw BadDimensionsException("Each row must have the same number of elements.");
-                }
-                temp_cols = element.size();
-            }
-            n_cols = temp_cols;
-        }
     }
 
     /**
@@ -58,7 +43,7 @@ public:
      */
     bool empty() const
     {
-        return data.empty();
+        return representation.empty();
     }
 
     /**
@@ -68,14 +53,14 @@ public:
      * 
      * ...should hash be also implemented?
      */
-    bool equals(const Matrix<T> &other) const
-    {
-        if (get_shape() != other.get_shape())
-        {
-            return false;
-        }
-        return data == other.data;
-    }
+    // bool equals(const Matrix<Number T, MatrixRepresentation R> &other) const
+    // {
+    //     if (get_shape() != other.get_shape())
+    //     {
+    //         return false;
+    //     }
+    //     return data == other.data;
+    // }
 
     /**
      * @brief Get the shape of the matrix
@@ -87,15 +72,6 @@ public:
         return std::make_pair(n_rows, n_cols);
     }
 
-    /**
-     * @brief Adds a matrix to this.
-     * @param Matrix other
-     * @returns Matrix
-     */
-    std::unique_ptr<IMatrix<T>> add(std::unique_ptr<IMatrix<T>> other) override
-    {
-        return std::make_unique<Matrix<T>>(std::vector<std::vector<T>>{{1}});
-    }
     // Matrix<T> add(const Matrix<T> &other)
     // {
     //     if (empty())
@@ -128,8 +104,15 @@ public:
     // }
 };
 
-template <typename T>
-bool operator==(const Matrix<T> lhs, const Matrix<T> rhs)
-{
-    return lhs.equals(rhs);
-}
+// template <typename T>
+// bool operator==(const Matrix<T, R> lhs, const Matrix<T, U> rhs)
+// {
+//     return lhs.equals(rhs);
+// }
+
+// template <Number T>
+// Matrix<T> MakeDenseMatrix(const std::vector<std::vector<T>> &data)
+// {
+//     auto out = std::make_unique<Matrix<T, DenseMatrixArithmetic<T>>>(data);
+//     return out;
+// };

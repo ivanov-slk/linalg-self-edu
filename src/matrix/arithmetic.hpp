@@ -10,10 +10,10 @@
  * a matrix)
  */
 template <typename T>
-class ArithmeticInterface
+class MatrixArithmeticInterface
 {
 public:
-    virtual ~ArithmeticInterface() = default;
+    virtual ~MatrixArithmeticInterface() = default;
     virtual T add(T other) = 0;
     virtual T subtract(T other) = 0;
     virtual T multiply(T other) = 0;

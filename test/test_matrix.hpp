@@ -1,44 +1,48 @@
 #include <gtest/gtest.h>
 #include "../src/matrix/matrix.cpp"
+#include "../src/matrix/denserepresentation.hpp"
 
 TEST(MatrixTests, Empty)
 {
-    Matrix<int> testable;
+    std::vector<std::vector<int>> data;
+    DenseRepresentation<int> repr;
+    Matrix<int, DenseRepresentation> testable;
     ASSERT_TRUE(testable.empty());
 }
 
-TEST(MatrixTests, NotEmpty)
-{
-    std::vector<std::vector<int>> data{
-        {1, 2, 3},
-        {4, 5, 6}};
-    Matrix<int> testable{data};
-    ASSERT_TRUE(!testable.empty());
-}
+// TEST(MatrixTests, NotEmpty)
+// {
+//     std::vector<std::vector<int>> data{
+//         {1, 2, 3},
+//         {4, 5, 6}};
+//     std::unique_ptr<IMatrix<int>> testable = MakeDenseMatrix<int>(data);
+//     ASSERT_TRUE(!testable->empty());
+// }
 
-TEST(MatrixTests, CorrectShape)
-{
-    std::vector<std::vector<int>> data{
-        {1, 2, 3},
-        {4, 5, 6}};
-    Matrix<int> testable{data};
-    ASSERT_EQ(std::make_pair(2, 3), testable.get_shape());
-}
+// TEST(MatrixTests, CorrectShape)
+// {
+//     std::vector<std::vector<int>> data{
+//         {1, 2, 3},
+//         {4, 5, 6}};
+//     std::unique_ptr<IMatrix<int>> testable = MakeDenseMatrix<int>(data);
+//     ASSERT_EQ(std::make_pair(2, 3), testable->get_shape());
+// }
 
-TEST(MatrixTests, CorrectShapeEmpty)
-{
-    std::vector<std::vector<int>> data;
-    Matrix<int> testable{data};
-    ASSERT_EQ(std::make_pair(0, 0), testable.get_shape());
-}
+// TEST(MatrixTests, CorrectShapeEmpty)
+// {
+//     std::vector<std::vector<int>> data;
+//     std::unique_ptr<IMatrix<int>> testable = MakeDenseMatrix<int>(data);
+//     ASSERT_EQ(std::make_pair(0, 0), testable->get_shape());
+// }
 
-TEST(MatrixTests, ThrowsBadShape)
-{
-    std::vector<std::vector<int>> data{
-        {1, 2, 3},
-        {4, 5}};
-    ASSERT_THROW(Matrix<int> testable{data}, BadDimensionsException);
-}
+// TEST(MatrixTests, ThrowsBadShape)
+// {
+//     std::vector<std::vector<int>> data{
+//         {1, 2, 3},
+//         {4, 5}};
+//     ASSERT_THROW(std::unique_ptr<IMatrix<int>> testable = MakeDenseMatrix<int>(data);,
+//                                                                                      BadDimensionsException);
+// }
 
 // TEST(MatrixTests, AddReturnsCorrect)
 // {
