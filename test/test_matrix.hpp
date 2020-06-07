@@ -5,19 +5,18 @@
 TEST(MatrixTests, Empty)
 {
     std::vector<std::vector<int>> data;
-    DenseRepresentation<int> repr;
-    Matrix<int, DenseRepresentation> testable;
+    Matrix<int, DenseRepresentation> testable{data};
     ASSERT_TRUE(testable.empty());
 }
 
-// TEST(MatrixTests, NotEmpty)
-// {
-//     std::vector<std::vector<int>> data{
-//         {1, 2, 3},
-//         {4, 5, 6}};
-//     std::unique_ptr<IMatrix<int>> testable = MakeDenseMatrix<int>(data);
-//     ASSERT_TRUE(!testable->empty());
-// }
+TEST(MatrixTests, NotEmpty)
+{
+    std::vector<std::vector<int>> data{
+        {1, 2, 3},
+        {4, 5, 6}};
+    Matrix<int, DenseRepresentation> testable{data};
+    ASSERT_TRUE(!testable.empty());
+}
 
 // TEST(MatrixTests, CorrectShape)
 // {

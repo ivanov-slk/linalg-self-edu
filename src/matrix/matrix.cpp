@@ -20,16 +20,13 @@
  * 
  * 
  */
-// template <Number T, MatrixRepresentation<T> R>
-template <typename T, template <typename> typename C>
-requires Number<T> &&MatrixRepresentation<C<T>>
-    // template <Number T, MatrixRepresentation R>
-    class Matrix
+template <Number T, template <Number U> class C>
+requires MatrixRepresentation<C<T>> class Matrix
 {
 private:
     int n_rows = 0; // These are set in the constructor currently, which requires them to be
     int n_cols = 0; // non-const. At least the data is const... but in any case this is not the best.
-    const C<T> representation;
+    C<T> representation;
 
 public:
     Matrix() {}
@@ -41,7 +38,7 @@ public:
      * @brief Checks if the matrix is empty.
      * @return bool true if the matrix is empty.
      */
-    bool empty() const
+    bool empty()
     {
         return representation.empty();
     }
@@ -67,7 +64,7 @@ public:
      * 
      * @return std::pair<int, int> - `first` is the number of rows, `second` is the number of columns
      */
-    std::pair<int, int> get_shape() const
+    std::pair<int, int> get_shape()
     {
         return std::make_pair(n_rows, n_cols);
     }
