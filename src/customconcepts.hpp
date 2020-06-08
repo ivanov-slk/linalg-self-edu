@@ -12,5 +12,5 @@ template <class R>
 concept MatrixRepresentation = requires(R x)
 {
     {x.empty()};
-    // ->std::same_as<bool>;
+    {x.get_shape()};
 };

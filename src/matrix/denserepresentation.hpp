@@ -37,5 +37,17 @@ public:
             n_cols = temp_cols;
         }
     }
+
+    /**
+     * @brief Checks if the matrix is empty.
+     * @return bool true if the matrix is empty.
+     */
     bool empty() const { return data.empty(); }
+
+    /**
+     * @brief Get the shape of the matrix
+     * 
+     * @return std::pair<int, int> - `first` is the number of rows, `second` is the number of columns
+     */
+    std::pair<int, int> get_shape() { return std::make_pair(n_rows, n_cols); }
 };
