@@ -10,25 +10,44 @@
 /**
  * @brief A matrix.
  */
-template <typename T, template <class U> class R>
-requires MatrixRepresentation<T, R> class Matrix
+template <Number T>
+class Matrix
 {
 private:
-    R<T> representation;
+    int n_rows = 0;
+    int n_cols = 0;
+    std::vector<std::vector<T>> data;
 
 public:
     Matrix() {}
-    Matrix(const std::vector<std::vector<T>> &data) : representation(data) {}
-    // add more constructor overloads here
+    Matrix(const std::vector<std::vector<T>> &data) : data(data)
+    {
+        if (data.empty())
+        {
+            n_rows = 0;
+            n_cols = 0;
+        }
+        else
+        {
+            n_rows = data.size();
+            int temp_cols = data[0].size();
+            for (std::vector<T> element : data)
+            {
+                if (element.size() != temp_cols)
+                {
+                    throw BadDimensionsException("Each row must have the same number of elements.");
+                }
+                temp_cols = element.size();
+            }
+            n_cols = temp_cols;
+        }
+    }
 
     /**
      * @brief Checks if the matrix is empty.
      * @return bool true if the matrix is empty.
      */
-    bool empty()
-    {
-        return representation.empty();
-    }
+    bool empty() const { return data.empty(); }
 
     /**
      * @brief Checks if two matrices are equal.
@@ -36,25 +55,16 @@ public:
      * @return bool true if matrices are equal.
      * 
      * ...should hash be also implemented?
+     * ...should T be used again? What about different number template and cast?
      */
-    // bool equals(const Matrix<T, C<T>> &other)
-    // {
-    //     if (get_shape() != other.get_shape())
-    //     {
-    //         return false;
-    //     }
-    //     return data == other.data;
-    // }
+    bool equals(const Matrix<T> &other) { return data == other.data; }
 
     /**
      * @brief Get the shape of the matrix
      * 
      * @return std::pair<int, int> - `first` is the number of rows, `second` is the number of columns
      */
-    std::pair<int, int> get_shape()
-    {
-        return representation.get_shape();
-    }
+    std::pair<int, int> get_shape() { return std::make_pair(n_rows, n_cols); }
 
     // Matrix<T> add(const Matrix<T> &other)
     // {
@@ -88,15 +98,8 @@ public:
     // }
 };
 
-// template <typename T>
-// bool operator==(const Matrix<T, R> lhs, const Matrix<T, U> rhs)
-// {
-//     return lhs.equals(rhs);
-// }
-
-// template <Number T>
-// Matrix<T> MakeDenseMatrix(const std::vector<std::vector<T>> &data)
-// {
-//     auto out = std::make_unique<Matrix<T, DenseMatrixArithmetic<T>>>(data);
-//     return out;
-// };
+template <typename T>
+bool operator==(const Matrix<T> lhs, const Matrix<T> rhs)
+{
+    return lhs.equals(rhs);
+}

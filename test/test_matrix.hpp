@@ -1,12 +1,11 @@
 #include <gtest/gtest.h>
 #include "../src/matrix/matrix.cpp"
-#include "../src/matrix/denserepresentation.hpp"
 #include "../src/exceptions.hpp"
 
 TEST(MatrixTests, Empty)
 {
     std::vector<std::vector<int>> data;
-    Matrix<int, DenseRepresentation> testable{data};
+    Matrix<int> testable{data};
     ASSERT_TRUE(testable.empty());
 }
 
@@ -15,7 +14,7 @@ TEST(MatrixTests, NotEmpty)
     std::vector<std::vector<int>> data{
         {1, 2, 3},
         {4, 5, 6}};
-    Matrix<int, DenseRepresentation> testable{data};
+    Matrix<int> testable{data};
     ASSERT_TRUE(!testable.empty());
 }
 
@@ -24,14 +23,14 @@ TEST(MatrixTests, CorrectShape)
     std::vector<std::vector<int>> data{
         {1, 2, 3},
         {4, 5, 6}};
-    Matrix<int, DenseRepresentation> testable{data};
+    Matrix<int> testable{data};
     ASSERT_EQ(std::make_pair(2, 3), testable.get_shape());
 }
 
 TEST(MatrixTests, CorrectShapeEmpty)
 {
     std::vector<std::vector<int>> data;
-    Matrix<int, DenseRepresentation> testable{data};
+    Matrix<int> testable{data};
     ASSERT_EQ(std::make_pair(0, 0), testable.get_shape());
 }
 
@@ -40,7 +39,7 @@ TEST(MatrixTests, ThrowsBadShape)
     std::vector<std::vector<int>> data{
         {1, 2, 3},
         {4, 5}};
-    ASSERT_THROW((Matrix<int, DenseRepresentation>{data}), BadDimensionsException);
+    ASSERT_THROW((Matrix<int>{data}), BadDimensionsException);
 }
 
 TEST(MatrixTests, Equal)
@@ -51,8 +50,8 @@ TEST(MatrixTests, Equal)
     std::vector<std::vector<int>> data2{
         {1, 2, 3},
         {4, 5, 6}};
-    Matrix<int, DenseRepresentation> testable1{data1};
-    Matrix<int, DenseRepresentation> testable2{data2};
+    Matrix<int> testable1{data1};
+    Matrix<int> testable2{data2};
     ASSERT_TRUE(testable1.equals(testable2));
 }
 
@@ -64,8 +63,8 @@ TEST(MatrixTests, NotEqual)
     std::vector<std::vector<int>> data2{
         {1, 5, 3},
         {4, 2, 6}};
-    Matrix<int, DenseRepresentation> testable1{data1};
-    Matrix<int, DenseRepresentation> testable2{data2};
+    Matrix<int> testable1{data1};
+    Matrix<int> testable2{data2};
     ASSERT_FALSE(testable1.equals(testable2));
 }
 
