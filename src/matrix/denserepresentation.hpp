@@ -50,4 +50,15 @@ public:
      * @return std::pair<int, int> - `first` is the number of rows, `second` is the number of columns
      */
     std::pair<int, int> get_shape() { return std::make_pair(n_rows, n_cols); }
+
+    /**
+     * @brief Checks if two matrices are equal.
+     * @param other Matrix
+     * @return bool true if matrices are equal.
+     * 
+     * ...should hash be also implemented?
+     * ...should T be used again? What about different number template and cast?
+     */
+    template <typename N, template <class O> class M>
+    requires MatrixRepresentation<N, M> bool equals(const M<N> &other) { return data == other.data; }
 };

@@ -9,51 +9,12 @@
 
 /**
  * @brief A matrix.
- * 
- * Supports common matrix operations like:
- * - matrix multiplication;
- * - transposition;
- * - element-wise multiplication;
- * - addition / subtraction;
- * - inversion;
- * - etc.
  */
-template <Number T, template <Number U> class C>
-requires MatrixRepresentation<C<T>> class Matrix
-/**
- * Development notes:
- * The matrix class provides a relatively high-level interface for
- * working with matrices. It does not depend on the exact representation
- * of the matrix at hand. The representation is handled via a separate
- * representation object, which is templated for the purpose.
- * 
- * By idea, this should allow seamless conversion between dense matrices
- * and (the various forms of) sparse matrices by performing various common
- * operations on them. To accompolish this, the representation is templated
- * as a concept and supplied via a template argument. The actual matrix data
- * is supplied via the constructor and passed on to the representation.
- * 
- * One can work with the representation alone, but this would make him
- * dependent on the concrete representation (dense, sparse) of the matrix.
- * This class works to remove this issue.
- * 
- * The downside is that this class should provide a separate constructor overload
- * for each implemented matrix representation. This makes the adding of new matrix
- * representation a bit cumbersome and not quite SOLID (at far as the Open/Closed
- * principle is concerned, at least). 
- * In order to add new matrix representation, one has to implement a matrix representation
- * following the MatrixRepresentation concept (fair enough) and adding one or more 
- * constructor overloads (not optimal) to this class so that it can work with the
- * new representation.
- * 
- * An alternative would be to create a separate raw representation concept and supply
- * it as a template argument as well (this would fit into only one constructor), but
- * requires from the client code to work with three template arguments (not optimal
- * either).
- */
+template <typename T, template <class U> class R>
+requires MatrixRepresentation<T, R> class Matrix
 {
 private:
-    C<T> representation;
+    R<T> representation;
 
 public:
     Matrix() {}

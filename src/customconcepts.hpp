@@ -8,9 +8,10 @@ concept SignedIntegral = Integral<T> &&std::is_signed<T>::value;
 template <class T>
 concept Number = SignedIntegral<T> || std::is_floating_point_v<T>;
 
-template <class R>
-concept MatrixRepresentation = requires(R x)
+template <typename T, template <class> class R>
+concept MatrixRepresentation = Number<T> &&requires(R<T> x, R<T> y)
 {
     {x.empty()};
     {x.get_shape()};
+    {x.equals(y)};
 };
