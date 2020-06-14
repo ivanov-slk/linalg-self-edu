@@ -68,36 +68,36 @@ TEST(MatrixTests, NotEqual)
     ASSERT_FALSE(testable1.equals(testable2));
 }
 
-// TEST(MatrixTests, AddReturnsCorrect)
-// {
-//     Matrix<float> mat1{
-//         std::vector<std::vector<float>>{
-//             {1., 2., 3.},
-//             {4., 5., 6.}}};
-//     Matrix<float> mat2{
-//         std::vector<std::vector<float>>{
-//             {1., 1., 1.},
-//             {2., 2., 2.}}};
-//     Matrix<float> correct{
-//         std::vector<std::vector<float>>{
-//             {2., 3., 4.},
-//             {6., 7., 8.}}};
-//     ASSERT_EQ(mat1.add(mat2), correct);
-// }
+TEST(MatrixTests, AddReturnsCorrect)
+{
+    Matrix<float> mat1{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    Matrix<float> mat2{
+        std::vector<std::vector<float>>{
+            {1., 1., 1.},
+            {2., 2., 2.}}};
+    Matrix<float> correct{
+        std::vector<std::vector<float>>{
+            {2., 3., 4.},
+            {6., 7., 8.}}};
+    ASSERT_EQ(mat1.add(mat2), correct);
+}
 
-// TEST(MatrixTests, AddReturnsSame)
-// {
-//     Matrix<float> mat1{
-//         std::vector<std::vector<float>>{
-//             {1., 2., 3.},
-//             {4., 5., 6.}}};
-//     Matrix<float> mat2;
-//     Matrix<float> correct{
-//         std::vector<std::vector<float>>{
-//             {1., 2., 3.},
-//             {4., 5., 6.}}};
-//     ASSERT_EQ(mat1.add(mat2), correct);
-// }
+TEST(MatrixTests, AddReturnsSame)
+{
+    Matrix<float> mat1{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    Matrix<float> mat2;
+    Matrix<float> correct{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    ASSERT_EQ(mat1.add(mat2), correct);
+}
 
 // TEST(MatrixTests, AddThrowsDimensionMismatch)
 // {
@@ -110,4 +110,6 @@ TEST(MatrixTests, NotEqual)
 //             {1., 1., 1.},
 //             {2., 2.}}};
 //     ASSERT_THROW(mat1.add(mat2), BadDimensionsException);
+//     // currently impossible, because it will throw on construction of the second matrix
+//     // keeping this test for reference though
 // }

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <functional>
 #include <concepts>
+#include <iostream>
 
 #include "../customconcepts.hpp"
 #include "../exceptions.hpp"
@@ -57,45 +58,58 @@ public:
      * ...should hash be also implemented?
      * ...should T be used again? What about different number template and cast?
      */
-    bool equals(const Matrix<T> &other) { return data == other.data; }
+    bool equals(const Matrix<T> &other) const
+    {
+        return data == other.data;
+    }
 
     /**
      * @brief Get the shape of the matrix
      * 
      * @return std::pair<int, int> - `first` is the number of rows, `second` is the number of columns
      */
-    std::pair<int, int> get_shape() { return std::make_pair(n_rows, n_cols); }
+    std::pair<int, int> get_shape() const
+    {
+        return std::make_pair(n_rows, n_cols);
+    }
 
-    // Matrix<T> add(const Matrix<T> &other)
-    // {
-    //     if (empty())
-    //     {
-    //         return Matrix<T>{other.data};
-    //     }
+    Matrix<T> add(const Matrix<T> &other)
+    {
+        if (empty())
+        {
+            return Matrix<T>{other.data};
+        }
 
-    //     if (other.empty())
-    //     {
-    //         return Matrix<T>{data};
-    //     }
+        if (other.empty())
+        {
+            return Matrix<T>{data};
+        }
 
-    //     if (get_shape() != other.get_shape())
-    //     {
-    //         throw BadDimensionsException("The two matrices must have the same shape");
-    //     }
+        if (get_shape() != other.get_shape())
+        {
+            // should never get here
+            throw BadDimensionsException("The two matrices must have the same shape");
+        }
 
-    //     std::vector<std::vector<T>> out;
-    //     out.reserve(other.data.size());
-    //     for (std::vector<T> element : other.data)
-    //     {
-    //         std::transform(element.begin(),
-    //                        element.end(),
-    //                        out.begin(),
-    //                        std::back_inserter(out),
-    //                        std::plus<T>());
-    //     }
+        std::vector<std::vector<T>> out;
+        out.reserve(other.data.size());
+        std::transform(data.begin(),
+                       data.end(),
+                       other.data.begin(),
+                       std::back_inserter(out),
+                       [](const std::vector<T> &x1,
+                          const std::vector<T> &x2) {
+                           std::vector<T> temp;
+                           std::transform(x1.begin(),
+                                          x1.end(),
+                                          x2.begin(),
+                                          std::back_inserter(temp),
+                                          std::plus<T>());
+                           return temp;
+                       });
 
-    //     return Matrix<T>{out};
-    // }
+        return Matrix<T>{out};
+    }
 };
 
 template <typename T>
