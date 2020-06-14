@@ -73,6 +73,9 @@ public:
         return std::make_pair(n_rows, n_cols);
     }
 
+    /**
+     * @brief Add a matrix to this.
+     */
     Matrix<T> add(const Matrix<T> &other)
     {
         if (empty())
@@ -105,6 +108,129 @@ public:
                                           x2.begin(),
                                           std::back_inserter(temp),
                                           std::plus<T>());
+                           return temp;
+                       });
+
+        return Matrix<T>{out};
+    }
+
+    /**
+     * @brief Subtract a matrix from this.
+     */
+    Matrix<T> subtract(const Matrix<T> &other)
+    {
+        if (empty())
+        {
+            return Matrix<T>{other.data};
+        }
+
+        if (other.empty())
+        {
+            return Matrix<T>{data};
+        }
+
+        if (get_shape() != other.get_shape())
+        {
+            // should never get here
+            throw BadDimensionsException("The two matrices must have the same shape");
+        }
+
+        std::vector<std::vector<T>> out;
+        out.reserve(other.data.size());
+        std::transform(data.begin(),
+                       data.end(),
+                       other.data.begin(),
+                       std::back_inserter(out),
+                       [](const std::vector<T> &x1,
+                          const std::vector<T> &x2) {
+                           std::vector<T> temp;
+                           std::transform(x1.begin(),
+                                          x1.end(),
+                                          x2.begin(),
+                                          std::back_inserter(temp),
+                                          std::minus<T>());
+                           return temp;
+                       });
+
+        return Matrix<T>{out};
+    }
+
+    /**
+     * @brief Multiply a matrix by this elementwise.
+     */
+    Matrix<T> el_multiply(const Matrix<T> &other)
+    {
+        if (empty())
+        {
+            return Matrix<T>{other.data};
+        }
+
+        if (other.empty())
+        {
+            return Matrix<T>{data};
+        }
+
+        if (get_shape() != other.get_shape())
+        {
+            // should never get here
+            throw BadDimensionsException("The two matrices must have the same shape");
+        }
+
+        std::vector<std::vector<T>> out;
+        out.reserve(other.data.size());
+        std::transform(data.begin(),
+                       data.end(),
+                       other.data.begin(),
+                       std::back_inserter(out),
+                       [](const std::vector<T> &x1,
+                          const std::vector<T> &x2) {
+                           std::vector<T> temp;
+                           std::transform(x1.begin(),
+                                          x1.end(),
+                                          x2.begin(),
+                                          std::back_inserter(temp),
+                                          std::multiplies<T>());
+                           return temp;
+                       });
+
+        return Matrix<T>{out};
+    }
+
+    /**
+     * @brief Divide this by other.
+     */
+    Matrix<T> el_divide(const Matrix<T> &other)
+    {
+        if (empty())
+        {
+            return Matrix<T>{other.data};
+        }
+
+        if (other.empty())
+        {
+            return Matrix<T>{data};
+        }
+
+        if (get_shape() != other.get_shape())
+        {
+            // should never get here
+            throw BadDimensionsException("The two matrices must have the same shape");
+        }
+
+        std::vector<std::vector<T>> out;
+        out.reserve(other.data.size());
+        std::transform(data.begin(),
+                       data.end(),
+                       other.data.begin(),
+                       std::back_inserter(out),
+                       [](const std::vector<T> &x1,
+                          const std::vector<T> &x2) {
+                           std::vector<T> temp;
+                           std::transform(x1.begin(),
+                                          x1.end(),
+                                          x2.begin(),
+                                          std::back_inserter(temp),
+                                          std::divides<T>());
                            return temp;
                        });
 

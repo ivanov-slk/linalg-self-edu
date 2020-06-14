@@ -113,3 +113,96 @@ TEST(MatrixTests, AddReturnsSame)
 //     // currently impossible, because it will throw on construction of the second matrix
 //     // keeping this test for reference though
 // }
+
+TEST(MatrixTests, SubtractReturnsCorrect)
+{
+    Matrix<float> mat1{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    Matrix<float> mat2{
+        std::vector<std::vector<float>>{
+            {1., 1., 1.},
+            {2., 2., 2.}}};
+    Matrix<float> correct{
+        std::vector<std::vector<float>>{
+            {0., 1., 2.},
+            {2., 3., 4.}}};
+    ASSERT_EQ(mat1.subtract(mat2), correct);
+}
+
+TEST(MatrixTests, SubtractReturnsSame)
+{
+    Matrix<float> mat1{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    Matrix<float> mat2;
+    Matrix<float> correct{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    ASSERT_EQ(mat1.subtract(mat2), correct);
+}
+
+TEST(MatrixTests, ElementMultiplyReturnsCorrect)
+{
+    Matrix<float> mat1{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    Matrix<float> mat2{
+        std::vector<std::vector<float>>{
+            {1., 1., 1.},
+            {2., 2., 2.}}};
+    Matrix<float> correct{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {8., 10., 12.}}};
+    ASSERT_EQ(mat1.el_multiply(mat2), correct);
+}
+
+TEST(MatrixTests, ElementMultiplyReturnsSame)
+{
+    Matrix<float> mat1{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    Matrix<float> mat2;
+    Matrix<float> correct{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    ASSERT_EQ(mat1.el_multiply(mat2), correct);
+}
+
+TEST(MatrixTests, DivideReturnsCorrect)
+{
+    Matrix<float> mat1{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    Matrix<float> mat2{
+        std::vector<std::vector<float>>{
+            {1., 1., 1.},
+            {2., 2., 2.}}};
+    Matrix<float> correct{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {2., 2.5, 3.}}};
+    ASSERT_EQ(mat1.el_divide(mat2), correct);
+}
+
+TEST(MatrixTests, DivideReturnsSame)
+{
+    Matrix<float> mat1{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    Matrix<float> mat2;
+    Matrix<float> correct{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    ASSERT_EQ(mat1.el_divide(mat2), correct);
+}
