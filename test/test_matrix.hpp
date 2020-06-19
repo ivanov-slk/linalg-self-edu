@@ -244,3 +244,71 @@ TEST(MatrixTests, TransposeSquare)
             {3., 6., 9.}}};
     ASSERT_EQ(testable.transpose(), correct);
 }
+
+TEST(MatrixTests, MatrixMultiply1)
+{
+    Matrix<float> mat1{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    Matrix<float> mat2{
+        std::vector<std::vector<float>>{
+            {1., 1.},
+            {2., 2.},
+            {3., 3.}}};
+    Matrix<float> correct{
+        std::vector<std::vector<float>>{
+            {14., 14.},
+            {32., 32.}}};
+    ASSERT_EQ(mat1.multiply(mat2), correct);
+}
+
+// TEST(MatrixTests, MatrixMultiply2)
+// {
+//     Matrix<float> mat1{
+//         std::vector<std::vector<float>>{
+//             {51.5, 72.2},
+//             {48.0, 52.9},
+//             {8.4, 23.7}}};
+//     Matrix<float> mat2{
+//         std::vector<std::vector<float>>{
+//             {87.7, 12.48, 6.123},
+//             {12.12, 54.48, 21.789}}};
+//     Matrix<float> correct{
+//         std::vector<std::vector<float>>{
+//             {5391.614, 4576.176, 1888.5003},
+//             {4850.748, 3481.032, 1446.5421},
+//             {1023.924, 1396.008, 567.8325}}};
+//     ASSERT_EQ(mat1.multiply(mat2), correct);
+// }
+
+TEST(MatrixTests, MatrixMultiplyEmpty)
+{
+    Matrix<float> mat1{
+        std::vector<std::vector<float>>{
+            {51.5, 72.2},
+            {48.0, 52.9},
+            {8.4, 23.7}}};
+    Matrix<float> mat2;
+    Matrix<float> correct{
+        std::vector<std::vector<float>>{
+            {51.5, 72.2},
+            {48.0, 52.9},
+            {8.4, 23.7}}};
+    ASSERT_EQ(mat1.multiply(mat2), correct);
+}
+
+TEST(MatrixTests, MatrixMultiplyThrows)
+{
+    Matrix<float> mat1{
+        std::vector<std::vector<float>>{
+            {51.5, 72.2},
+            {48.0, 52.9},
+            {8.4, 23.7}}};
+    Matrix<float> mat2{
+        std::vector<std::vector<float>>{
+            {1., 2.},
+            {3., 4.},
+            {5., 6.}}};
+    ASSERT_THROW(mat1.multiply(mat2), BadDimensionsException);
+}
