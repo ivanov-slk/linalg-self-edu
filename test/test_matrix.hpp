@@ -1,6 +1,23 @@
 #include <gtest/gtest.h>
 #include "../src/matrix/matrix.cpp"
 #include "../src/exceptions.hpp"
+#include "../src/customconcepts.hpp"
+
+// template <Number T>
+void compare_two_matrices(const Matrix<float> &first, const Matrix<float> &second)
+{
+    std::vector<std::vector<float>> res_data = first.get_data();
+    std::vector<std::vector<float>> cor_data = second.get_data();
+    for (typename std::vector<float>::size_type i = 0; i < res_data.size(); ++i)
+    {
+        for (typename std::vector<float>::size_type j = 0; j < res_data[0].size(); ++j)
+        {
+            float a = res_data[i][j];
+            float b = cor_data[i][j];
+            ASSERT_FLOAT_EQ(a, b);
+        }
+    }
+}
 
 TEST(MatrixTests, Empty)
 {
@@ -263,24 +280,30 @@ TEST(MatrixTests, MatrixMultiply1)
     ASSERT_EQ(mat1.multiply(mat2), correct);
 }
 
-// TEST(MatrixTests, MatrixMultiply2)
-// {
-//     Matrix<float> mat1{
-//         std::vector<std::vector<float>>{
-//             {51.5, 72.2},
-//             {48.0, 52.9},
-//             {8.4, 23.7}}};
-//     Matrix<float> mat2{
-//         std::vector<std::vector<float>>{
-//             {87.7, 12.48, 6.123},
-//             {12.12, 54.48, 21.789}}};
-//     Matrix<float> correct{
-//         std::vector<std::vector<float>>{
-//             {5391.614, 4576.176, 1888.5003},
-//             {4850.748, 3481.032, 1446.5421},
-//             {1023.924, 1396.008, 567.8325}}};
-//     ASSERT_EQ(mat1.multiply(mat2), correct);
-// }
+TEST(MatrixTests, MatrixMultiply2)
+{
+    // arrange
+    Matrix<float> mat1{
+        std::vector<std::vector<float>>{
+            {51.5, 72.2},
+            {48.0, 52.9},
+            {8.4, 23.7}}};
+    Matrix<float> mat2{
+        std::vector<std::vector<float>>{
+            {87.7, 12.48, 6.123},
+            {12.12, 54.48, 21.789}}};
+    Matrix<float> correct{
+        std::vector<std::vector<float>>{
+            {5391.614, 4576.176, 1888.5003},
+            {4850.748, 3481.032, 1446.5421},
+            {1023.924, 1396.008, 567.8325}}};
+
+    // act
+    Matrix<float> result = mat1.multiply(mat2);
+
+    // assert
+    compare_two_matrices(result, correct);
+}
 
 TEST(MatrixTests, MatrixMultiplyEmpty)
 {

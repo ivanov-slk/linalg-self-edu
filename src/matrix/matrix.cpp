@@ -106,6 +106,11 @@ public:
     }
 
     /**
+     * @brief Get the raw data.
+     */
+    std::vector<std::vector<T>> get_data() const { return data; }
+
+    /**
      * @brief Add a matrix to this.
      */
     Matrix<T> add(const Matrix<T> &other)
@@ -196,8 +201,6 @@ public:
                 {
                     temp_sum += data[i][k] * other.data[k][j];
                 }
-                std::cout << temp_sum << "+++++++++++++++++++" << '\n';
-
                 temp_row.push_back(temp_sum);
             }
             out.push_back(temp_row);
