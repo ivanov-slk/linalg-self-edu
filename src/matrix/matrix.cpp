@@ -4,6 +4,7 @@
 #include <functional>
 #include <concepts>
 #include <iostream>
+#include <cmath>
 
 #include "../customconcepts.hpp"
 #include "../exceptions.hpp"
@@ -206,6 +207,32 @@ public:
             out.push_back(temp_row);
         }
         return Matrix<T>{out};
+    }
+
+    /**
+     * @brief Take the norm of the matrix.
+     * 
+     * Note that if the matrix has only one row / column, the vector norm is returned.
+     * Otherwise, the "entrywise" norm of the whole matrix is returned. For p=2,
+     * this is the Frobenius norm.
+     * 
+     * Check https://en.wikipedia.org/wiki/Matrix_norm#%22Entrywise%22_matrix_norms.
+     */
+    float norm(float p)
+    {
+        float temp_sum = float(0);
+        for (typename std::vector<T>::size_type i = 0; i < n_rows; ++i)
+        {
+            for (typename std::vector<T>::size_type j = 0; j < n_cols; ++j)
+            {
+                // explicit casting, the norm is unlikely to be an integer
+                float current_value = (float)data[i][j];
+                // take absolute value (might use std::abs(), but have to manage overloads)
+                // then exponentiate
+                temp_sum += std::pow(((current_value < 0) ? -current_value : current_value), p);
+            }
+        }
+        return std::pow(temp_sum, (1 / p));
     }
 };
 
