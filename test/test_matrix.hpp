@@ -1,3 +1,4 @@
+#include <cmath>
 #include <gtest/gtest.h>
 #include "../src/matrix/matrix.cpp"
 #include "../src/exceptions.hpp"
@@ -430,3 +431,15 @@ TEST(MatrixTests, NotSymmetric)
 }
 
 // test frobenius norm = sqroot(trace(A*A^T))
+TEST(MatrixTests, FrobeniusEqualsTrace)
+{
+    Matrix<float> testable{std::vector<std::vector<float>>{
+        {34.5, 234.34},
+        {876.43, -5.1243},
+        {-675.234, 54.2}}};
+    float frobenius_norm = testable.norm(2);
+    float trace_frobenius = std::sqrt(testable.multiply(
+                                                  testable.transpose())
+                                          .trace());
+    ASSERT_FLOAT_EQ(frobenius_norm, trace_frobenius);
+}
