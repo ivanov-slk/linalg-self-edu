@@ -335,3 +335,17 @@ TEST(MatrixTests, MatrixMultiplyThrows)
             {5., 6.}}};
     ASSERT_THROW(mat1.multiply(mat2), BadDimensionsException);
 }
+
+TEST(MatrixTests, MatrixMultiplyTranspose)
+{
+    Matrix<float> a{std::vector<std::vector<float>>{
+        {1.2, 3.4, -5.7},
+        {-5.3, 8.7, 4.127}}};
+    Matrix<float> b{std::vector<std::vector<float>>{
+        {34.5, 234.34},
+        {876.43, -5.1243},
+        {-675.234, 54.2}}};
+    Matrix<float> abt = a.multiply(b).transpose();
+    Matrix<float> atbt = b.transpose().multiply(a.transpose());
+    compare_two_matrices(abt, atbt);
+}
