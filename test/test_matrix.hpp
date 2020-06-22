@@ -411,5 +411,22 @@ TEST(MatrixTests, TraceNonsquare)
 }
 
 // test is_symmetric (A = A^T)
+TEST(MatrixTests, Symmetric)
+{
+    Matrix<int> testable{std::vector<std::vector<int>>{
+        {1, 2, 3},
+        {2, 1, 2},
+        {3, 2, 1}}};
+    ASSERT_TRUE(testable.is_symmetric());
+}
+
+TEST(MatrixTests, NotSymmetric)
+{
+    Matrix<int> testable{std::vector<std::vector<int>>{
+        {1, 2, 3},
+        {55, 1, 2},
+        {3, 2, 1}}};
+    ASSERT_FALSE(testable.is_symmetric());
+}
 
 // test frobenius norm = sqroot(trace(A*A^T))

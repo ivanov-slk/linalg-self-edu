@@ -254,6 +254,16 @@ public:
         }
         return temp_sum;
     }
+
+    /**
+     * @brief Checks if the matrix is symmetric.
+     * 
+     * Relies on the property that A = A^T.
+     */
+    bool is_symmetric()
+    {
+        return this->equals(transpose());
+    }
 };
 
 template <typename T>
