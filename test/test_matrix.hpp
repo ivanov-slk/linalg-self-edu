@@ -393,6 +393,22 @@ TEST(MatrixTests, NormsVectors)
 }
 
 // test trace
+TEST(MatrixTests, Trace)
+{
+    Matrix<float> a{std::vector<std::vector<float>>{
+        {1.2, 3.4, -5.7},
+        {-5.3, 8.7, 4.127},
+        {-3.23, 34.4, 23.6}}};
+    ASSERT_FLOAT_EQ(a.trace(), 33.5);
+}
+
+TEST(MatrixTests, TraceNonsquare)
+{
+    Matrix<float> a{std::vector<std::vector<float>>{
+        {1.2, 3.4, -5.7},
+        {-5.3, 8.7, 4.127}}};
+    ASSERT_FLOAT_EQ(a.trace(), 0.0);
+}
 
 // test is_symmetric (A = A^T)
 

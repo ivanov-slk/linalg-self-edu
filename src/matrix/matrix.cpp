@@ -234,6 +234,26 @@ public:
         }
         return std::pow(temp_sum, (1 / p));
     }
+
+    /**
+     * @brief Find the trace of the matrix.
+     * 
+     * Works only for square matrices. Otherwise returns 0.
+     * ?? Is it ok to return 0? Why not raise an exception?
+     */
+    T trace()
+    {
+        if (n_rows != n_cols)
+        {
+            return T(0);
+        }
+        T temp_sum = T(0);
+        for (typename std::vector<T>::size_type i = 0; i < n_rows; ++i)
+        {
+            temp_sum += data[i][i];
+        }
+        return temp_sum;
+    }
 };
 
 template <typename T>
