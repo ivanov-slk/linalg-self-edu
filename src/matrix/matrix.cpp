@@ -23,6 +23,7 @@ private:
 
     Matrix<T> do_arithmetic(const Matrix<T> &other, std::function<T(T, T)> binary_op)
     {
+        Arithmetic<T> arithmetic;
         if (empty())
         {
             return Matrix<T>{other.data};
@@ -32,7 +33,7 @@ private:
         {
             return Matrix<T>{data};
         }
-        return Matrix<T>{Arithmetic<T>()(data, other.data, binary_op)};
+        return Matrix<T>{arithmetic(data, other.data, binary_op)};
     }
 
 public:

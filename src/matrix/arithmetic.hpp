@@ -12,7 +12,7 @@ template <Number T>
 class Arithmetic
 {
 public:
-    std::vector<std::vector<T>> operator()(std::vector<std::vector<T>> &left,
+    std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &left,
                                            const std::vector<std::vector<T>> &right,
                                            std::function<T(T, T)> &binary_op)
     {
