@@ -3,11 +3,11 @@
 #include <algorithm>
 #include <functional>
 #include <concepts>
-#include <iostream>
 #include <cmath>
 
 #include "../customconcepts.hpp"
 #include "../exceptions.hpp"
+#include "arithmetic.hpp"
 
 /**
  * @brief A matrix.
@@ -32,24 +32,7 @@ private:
         {
             return Matrix<T>{data};
         }
-        std::vector<std::vector<T>> out;
-        out.reserve(other.data.size());
-        std::transform(data.begin(),
-                       data.end(),
-                       other.data.begin(),
-                       std::back_inserter(out),
-                       [&binary_op](const std::vector<T> &x1,
-                                    const std::vector<T> &x2) {
-                           std::vector<T> temp;
-                           std::transform(x1.begin(),
-                                          x1.end(),
-                                          x2.begin(),
-                                          std::back_inserter(temp),
-                                          binary_op);
-                           return temp;
-                       });
-
-        return Matrix<T>{out};
+        return Matrix<T>{Arithmetic<T>()(data, other.data, binary_op)};
     }
 
 public:

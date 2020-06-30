@@ -1,21 +1,37 @@
+#pragma once
+#include <vector>
+#include <algorithm>
+#include <functional>
 
+#include "../customconcepts.hpp"
 
 /**
- * @brief An interface exposing the four basic arithmetic operations.
- * 
- * It is meant to be implemented by classes which are used by other classes
- * as dependencies. This way, one will be able to:
- * - implement various algorithms for performing these operations;
- * - add various operations to some class (say, add arithmetic operations to
- * a matrix)
+ * @brief Functor for doing arithmetic on matrix raw data.
  */
-template <typename T>
-class MatrixArithmeticInterface
+template <Number T>
+class Arithmetic
 {
 public:
-    virtual ~MatrixArithmeticInterface() = default;
-    virtual T add(T other) = 0;
-    virtual T subtract(T other) = 0;
-    virtual T multiply(T other) = 0;
-    virtual T divide(T other) = 0;
+    std::vector<std::vector<T>> operator()(std::vector<std::vector<T>> &left,
+                                           const std::vector<std::vector<T>> &right,
+                                           std::function<T(T, T)> &binary_op)
+    {
+        std::vector<std::vector<T>> out;
+        out.reserve(left.size());
+        std::transform(left.begin(),
+                       left.end(),
+                       right.begin(),
+                       std::back_inserter(out),
+                       [&binary_op](const std::vector<T> &x1,
+                                    const std::vector<T> &x2) {
+                           std::vector<T> temp;
+                           std::transform(x1.begin(),
+                                          x1.end(),
+                                          x2.begin(),
+                                          std::back_inserter(temp),
+                                          binary_op);
+                           return temp;
+                       });
+        return out;
+    }
 };
