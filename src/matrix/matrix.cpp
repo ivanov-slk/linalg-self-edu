@@ -256,6 +256,38 @@ public:
     }
 
     /**
+     * @brief Calculates the QR decomposition of the matrix.
+     * 
+     * Requires that the matrix is square.
+     */
+    // void qr_decompose()
+    // {
+    //     Matrix<T> matrix_r;
+    //     Matrix<T> matrix_q;
+    //     for (typename std::vector<T> size_type i = 0; i < n_cols; ++i)
+    //     {
+    //         // I need functions to extract rows, columns, adjoint matrices
+    //         // I need function overloads to do arithmetic with scalars
+    //         // I need function to create identity matrix based on given rows and columns
+    //         // I need function to create diagonal matrix from a vector
+    //         // get unit vector from the column
+    //         std::vector<std::vector<T>> col_data;
+    //         for (typename std::vector<T> size_type j = 0; j < n_rows)
+    //             Matrix<T> current_column;
+
+    //         // create an identity matrix
+
+    //         // calculate Q
+
+    //         // resize Q
+
+    //         // update matrix_r
+
+    //         // update matrix_q
+    //     }
+    // }
+
+    /**
      * @brief Checks if the matrix is symmetric.
      * 
      * Relies on the property that A = A^T.
