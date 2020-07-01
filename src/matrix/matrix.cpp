@@ -19,6 +19,7 @@ private:
     int n_rows = 0;
     int n_cols = 0;
     std::vector<std::vector<T>> data;
+    Arithmetic<T> arithmetic; // hard-coded "dependency injection" - consider refactoring if needed
     // Just as an idea, consider flattening the representation.
 
     Matrix<T> do_arithmetic(const Matrix<T> &other, std::function<T(T, T)> binary_op)
@@ -104,11 +105,27 @@ public:
     }
 
     /**
+     * @brief Add a scalar to each element of this.
+     */
+    Matrix<T> add(T scalar)
+    {
+        return arithmetic(data, scalar, std::plus<T>());
+    }
+
+    /**
      * @brief Subtract a matrix from this.
      */
     Matrix<T> subtract(const Matrix<T> &other)
     {
         return do_arithmetic(other, std::minus<T>());
+    }
+
+    /**
+     * @brief Subtract a scalar from each element of this.
+     */
+    Matrix<T> subtract(T scalar)
+    {
+        return arithmetic(data, scalar, std::minus<T>());
     }
 
     /**
@@ -120,11 +137,27 @@ public:
     }
 
     /**
+     * @brief Multiply a matrix by a scalar.
+     */
+    Matrix<T> el_multiply(T scalar)
+    {
+        return arithmetic(data, scalar, std::multiplies<T>());
+    }
+
+    /**
      * @brief Divide this by other.
      */
     Matrix<T> el_divide(const Matrix<T> &other)
     {
         return do_arithmetic(other, std::divides<T>());
+    }
+
+    /**
+     * @brief Divide each element of this by a scalar.
+     */
+    Matrix<T> el_divide(T scalar)
+    {
+        return arithmetic(data, scalar, std::divides<T>());
     }
 
     /**
