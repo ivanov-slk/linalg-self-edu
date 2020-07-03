@@ -8,7 +8,7 @@ add_executable(mldl_self_edu main.cpp)
 
 # Include subdirectories
 add_subdirectory(src)
-list(APPEND EXTRA_LIBS matrix)
+#list(APPEND EXTRA_LIBS matrix)
 list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/src")
 
 add_subdirectory(test)

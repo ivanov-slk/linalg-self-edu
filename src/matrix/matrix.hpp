@@ -1,11 +1,7 @@
 #pragma once
-#include <vector>
-#include <algorithm>
-#include <functional>
 #include <concepts>
 #include <cmath>
 
-#include "../customconcepts.hpp"
 #include "../exceptions.hpp"
 #include "arithmetic.hpp"
 
