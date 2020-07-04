@@ -1,7 +1,7 @@
 #pragma once
 #include "matrix_tests_utilities.hpp"
 
-TEST(MatrixTests, MatrixMultiply1)
+TEST(MatrixMultiplicationTests, MatrixMultiply1)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -19,7 +19,7 @@ TEST(MatrixTests, MatrixMultiply1)
     ASSERT_EQ(mat1.multiply(mat2), correct);
 }
 
-TEST(MatrixTests, MatrixMultiply2)
+TEST(MatrixMultiplicationTests, MatrixMultiply2)
 {
     // arrange
     Matrix<float> mat1{
@@ -44,7 +44,7 @@ TEST(MatrixTests, MatrixMultiply2)
     compare_two_matrices(result, correct);
 }
 
-TEST(MatrixTests, MatrixMultiplyEmpty)
+TEST(MatrixMultiplicationTests, MatrixMultiplyEmpty)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -60,7 +60,7 @@ TEST(MatrixTests, MatrixMultiplyEmpty)
     ASSERT_EQ(mat1.multiply(mat2), correct);
 }
 
-TEST(MatrixTests, MatrixMultiplyThrows)
+TEST(MatrixMultiplicationTests, MatrixMultiplyThrows)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -75,7 +75,7 @@ TEST(MatrixTests, MatrixMultiplyThrows)
     ASSERT_THROW(mat1.multiply(mat2), BadDimensionsException);
 }
 
-TEST(MatrixTests, MatrixMultiplyTranspose)
+TEST(MatrixMultiplicationTests, MatrixMultiplyTranspose)
 {
     Matrix<float> a{std::vector<std::vector<float>>{
         {1.2, 3.4, -5.7},

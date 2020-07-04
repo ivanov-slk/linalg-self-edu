@@ -1,14 +1,14 @@
 #pragma once
 #include "matrix_tests_utilities.hpp"
 
-TEST(MatrixTests, Empty)
+TEST(MatrixCorrectnessTests, Empty)
 {
     std::vector<std::vector<int>> data;
     Matrix<int> testable{data};
     ASSERT_TRUE(testable.empty());
 }
 
-TEST(MatrixTests, NotEmpty)
+TEST(MatrixCorrectnessTests, NotEmpty)
 {
     std::vector<std::vector<int>> data{
         {1, 2, 3},
@@ -17,7 +17,7 @@ TEST(MatrixTests, NotEmpty)
     ASSERT_TRUE(!testable.empty());
 }
 
-TEST(MatrixTests, CorrectShape)
+TEST(MatrixCorrectnessTests, CorrectShape)
 {
     std::vector<std::vector<int>> data{
         {1, 2, 3},
@@ -26,14 +26,14 @@ TEST(MatrixTests, CorrectShape)
     ASSERT_EQ(std::make_pair(2, 3), testable.get_shape());
 }
 
-TEST(MatrixTests, CorrectShapeEmpty)
+TEST(MatrixCorrectnessTests, CorrectShapeEmpty)
 {
     std::vector<std::vector<int>> data;
     Matrix<int> testable{data};
     ASSERT_EQ(std::make_pair(0, 0), testable.get_shape());
 }
 
-TEST(MatrixTests, ThrowsBadShape)
+TEST(MatrixCorrectnessTests, ThrowsBadShape)
 {
     std::vector<std::vector<int>> data{
         {1, 2, 3},
@@ -41,7 +41,7 @@ TEST(MatrixTests, ThrowsBadShape)
     ASSERT_THROW((Matrix<int>{data}), BadDimensionsException);
 }
 
-TEST(MatrixTests, Equal)
+TEST(MatrixCorrectnessTests, Equal)
 {
     std::vector<std::vector<int>> data1{
         {1, 2, 3},
@@ -54,7 +54,7 @@ TEST(MatrixTests, Equal)
     ASSERT_TRUE(testable1.equals(testable2));
 }
 
-TEST(MatrixTests, NotEqual)
+TEST(MatrixCorrectnessTests, NotEqual)
 {
     std::vector<std::vector<int>> data1{
         {1, 2, 3},

@@ -1,7 +1,7 @@
 #pragma once
 #include "matrix_tests_utilities.hpp"
 
-TEST(MatrixTests, AddReturnsCorrect)
+TEST(MatrixArithmeticTests, AddReturnsCorrect)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -18,7 +18,7 @@ TEST(MatrixTests, AddReturnsCorrect)
     ASSERT_EQ(mat1.add(mat2), correct);
 }
 
-TEST(MatrixTests, AddScalarReturnsCorrect)
+TEST(MatrixArithmeticTests, AddScalarReturnsCorrect)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -31,7 +31,7 @@ TEST(MatrixTests, AddScalarReturnsCorrect)
     ASSERT_EQ(mat1.add(1.), correct);
 }
 
-TEST(MatrixTests, AddReturnsSame)
+TEST(MatrixArithmeticTests, AddReturnsSame)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -45,7 +45,7 @@ TEST(MatrixTests, AddReturnsSame)
     ASSERT_EQ(mat1.add(mat2), correct);
 }
 
-// TEST(MatrixTests, AddThrowsDimensionMismatch)
+// TEST(MatrixArithmeticTests, AddThrowsDimensionMismatch)
 // {
 //     Matrix<float> mat1{
 //         std::vector<std::vector<float>>{
@@ -60,7 +60,7 @@ TEST(MatrixTests, AddReturnsSame)
 //     // keeping this test for reference though
 // }
 
-TEST(MatrixTests, SubtractReturnsCorrect)
+TEST(MatrixArithmeticTests, SubtractReturnsCorrect)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -77,7 +77,7 @@ TEST(MatrixTests, SubtractReturnsCorrect)
     ASSERT_EQ(mat1.subtract(mat2), correct);
 }
 
-TEST(MatrixTests, SubtractScalarReturnsCorrect)
+TEST(MatrixArithmeticTests, SubtractScalarReturnsCorrect)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -90,7 +90,7 @@ TEST(MatrixTests, SubtractScalarReturnsCorrect)
     ASSERT_EQ(mat1.subtract(1.), correct);
 }
 
-TEST(MatrixTests, SubtractReturnsSame)
+TEST(MatrixArithmeticTests, SubtractReturnsSame)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -104,7 +104,7 @@ TEST(MatrixTests, SubtractReturnsSame)
     ASSERT_EQ(mat1.subtract(mat2), correct);
 }
 
-TEST(MatrixTests, ElementMultiplyReturnsCorrect)
+TEST(MatrixArithmeticTests, ElementMultiplyReturnsCorrect)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -121,7 +121,7 @@ TEST(MatrixTests, ElementMultiplyReturnsCorrect)
     ASSERT_EQ(mat1.el_multiply(mat2), correct);
 }
 
-TEST(MatrixTests, ElementMultiplyScalarReturnsCorrect)
+TEST(MatrixArithmeticTests, ElementMultiplyScalarReturnsCorrect)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -134,7 +134,7 @@ TEST(MatrixTests, ElementMultiplyScalarReturnsCorrect)
     ASSERT_EQ(mat1.el_multiply(2.), correct);
 }
 
-TEST(MatrixTests, ElementMultiplyReturnsSame)
+TEST(MatrixArithmeticTests, ElementMultiplyReturnsSame)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -148,7 +148,7 @@ TEST(MatrixTests, ElementMultiplyReturnsSame)
     ASSERT_EQ(mat1.el_multiply(mat2), correct);
 }
 
-TEST(MatrixTests, DivideReturnsCorrect)
+TEST(MatrixArithmeticTests, DivideReturnsCorrect)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -165,7 +165,7 @@ TEST(MatrixTests, DivideReturnsCorrect)
     ASSERT_EQ(mat1.el_divide(mat2), correct);
 }
 
-TEST(MatrixTests, DivideScalarReturnsCorrect)
+TEST(MatrixArithmeticTests, DivideScalarReturnsCorrect)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{
@@ -178,7 +178,7 @@ TEST(MatrixTests, DivideScalarReturnsCorrect)
     ASSERT_EQ(mat1.el_divide(2.), correct);
 }
 
-TEST(MatrixTests, DivideReturnsSame)
+TEST(MatrixArithmeticTests, DivideReturnsSame)
 {
     Matrix<float> mat1{
         std::vector<std::vector<float>>{

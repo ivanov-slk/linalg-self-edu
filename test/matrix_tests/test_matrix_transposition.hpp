@@ -1,7 +1,7 @@
 #pragma once
 #include "matrix_tests_utilities.hpp"
 
-TEST(MatrixTests, Transpose)
+TEST(MatrixTranspositionTests, Transpose)
 {
     Matrix<float> testable{
         std::vector<std::vector<float>>{
@@ -15,7 +15,7 @@ TEST(MatrixTests, Transpose)
     ASSERT_EQ(testable.transpose(), correct);
 }
 
-TEST(MatrixTests, TransposeTranspose)
+TEST(MatrixTranspositionTests, TransposeTranspose)
 {
     Matrix<float> testable{
         std::vector<std::vector<float>>{
@@ -24,7 +24,7 @@ TEST(MatrixTests, TransposeTranspose)
     ASSERT_EQ(testable.transpose().transpose(), testable);
 }
 
-TEST(MatrixTests, TransposeSquare)
+TEST(MatrixTranspositionTests, TransposeSquare)
 {
     Matrix<float> testable{
         std::vector<std::vector<float>>{

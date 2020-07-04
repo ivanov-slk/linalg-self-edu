@@ -1,7 +1,7 @@
 #include "matrix_tests_utilities.hpp"
 
 // test norm (frobenius, vector, different p-s)
-TEST(MatrixTests, NormsMatrix)
+TEST(MatrixPropertiesTests, NormsMatrix)
 {
     Matrix<float> a{std::vector<std::vector<float>>{
         {1.2, 3.4, -5.7},
@@ -20,7 +20,7 @@ TEST(MatrixTests, NormsMatrix)
     ASSERT_FLOAT_EQ(norm_b_2, 1132.7577);
 }
 
-TEST(MatrixTests, NormsVectors)
+TEST(MatrixPropertiesTests, NormsVectors)
 {
     Matrix<float> a{
         std::vector<std::vector<float>>{
@@ -43,7 +43,7 @@ TEST(MatrixTests, NormsVectors)
 }
 
 // test trace
-TEST(MatrixTests, Trace)
+TEST(MatrixPropertiesTests, Trace)
 {
     Matrix<float> a{std::vector<std::vector<float>>{
         {1.2, 3.4, -5.7},
@@ -52,7 +52,7 @@ TEST(MatrixTests, Trace)
     ASSERT_FLOAT_EQ(a.trace(), 33.5);
 }
 
-TEST(MatrixTests, TraceNonsquare)
+TEST(MatrixPropertiesTests, TraceNonsquare)
 {
     Matrix<float> a{std::vector<std::vector<float>>{
         {1.2, 3.4, -5.7},
@@ -61,7 +61,7 @@ TEST(MatrixTests, TraceNonsquare)
 }
 
 // test is_symmetric (A = A^T)
-TEST(MatrixTests, Symmetric)
+TEST(MatrixPropertiesTests, Symmetric)
 {
     Matrix<int> testable{std::vector<std::vector<int>>{
         {1, 2, 3},
@@ -70,7 +70,7 @@ TEST(MatrixTests, Symmetric)
     ASSERT_TRUE(testable.is_symmetric());
 }
 
-TEST(MatrixTests, NotSymmetric)
+TEST(MatrixPropertiesTests, NotSymmetric)
 {
     Matrix<int> testable{std::vector<std::vector<int>>{
         {1, 2, 3},
@@ -80,7 +80,7 @@ TEST(MatrixTests, NotSymmetric)
 }
 
 // test frobenius norm = sqroot(trace(A*A^T))
-TEST(MatrixTests, FrobeniusEqualsTrace)
+TEST(MatrixPropertiesTests, FrobeniusEqualsTrace)
 {
     Matrix<float> testable{std::vector<std::vector<float>>{
         {34.5, 234.34},
