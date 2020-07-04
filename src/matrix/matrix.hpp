@@ -4,6 +4,7 @@
 
 #include "../exceptions.hpp"
 #include "arithmetic.hpp"
+#include "shapeutilities.hpp"
 
 /**
  * @brief A matrix.
@@ -265,6 +266,54 @@ public:
             temp_sum += data[i][i];
         }
         return temp_sum;
+    }
+
+    /**
+     * @brief Extracts a row from this.
+     * 
+     * @return A matrix representing the requested row of this.
+     */
+    Matrix<T> extract_row(int row)
+    {
+        if (row > n_rows - 1)
+        {
+            throw BadDimensionsException("The requested row does not exist. This matrix is smaller.");
+        }
+        return Matrix<T>{ExtractRowRaw<T>()(data, row)};
+    }
+
+    /**
+     * @brief Extracts a column from this.
+     * 
+     * @return A matrix representing the requested column of this.
+     */
+    Matrix<T> extract_column(int col)
+    {
+        if (col > n_cols - 1)
+        {
+            throw BadDimensionsException("The requested column does not exist. This matrix is smaller.");
+        }
+        return Matrix<T>{ExtractColumnRaw<T>()(data, col)};
+    }
+
+    /**
+     * @brief Extracts an adjoint matrix from this.
+     * 
+     * @return A matrix representing the requested adjoint of this.
+     */
+    Matrix<T> extract_adjoint(int row, int col)
+    {
+        return Matrix<T>{ExtractAdjointRaw<T>()(data, row, col)};
+    }
+
+    /**
+     * @brief Extracts a submatrix from this.
+     * 
+     * @return A matrix representing the requested submatrix of this.
+     */
+    Matrix<T> extract_submatrix(int row, int col)
+    {
+        return Matrix<T>{ExtractSubmatrixRaw<T>()(data, row, col)};
     }
 
     /**

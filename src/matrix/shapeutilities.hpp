@@ -10,8 +10,10 @@ template <Number T>
 class ExtractRowRaw
 {
 public:
-    std::vector<T> operator()(const std::vector<std::vector<T>> &data, int row)
+    std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data, int row)
     {
+        std::vector<std::vector<T>> result{std::vector<T>{data.at(row)}};
+        return result;
     }
 };
 
@@ -22,7 +24,15 @@ template <Number T>
 class ExtractColumnRaw
 {
 public:
-    std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data, int col) {}
+    std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data, int col)
+    {
+        std::vector<std::vector<T>> result;
+        for (const auto &row : data)
+        {
+            result.push_back(std::vector<T>{row.at(col)});
+        }
+        return result;
+    }
 };
 
 /**
