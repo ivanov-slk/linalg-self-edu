@@ -318,7 +318,12 @@ public:
      */
     Matrix<T> extract_submatrix(int row, int col)
     {
-        return Matrix<T>{ExtractSubmatrixRaw<T>()(data, row, col)};
+        // row and col must be nonnegative and less than n_rows / n_cols respectively
+        if (((row > n_rows - 1) || (col > n_cols - 1)) || ((row < 0) || (col < 0)))
+        {
+            throw BadDimensionsException("The requested row / column doesn't exist.");
+        }
+        return Matrix<T>{ExtractSubmatrixRaw<T>()(data, row, col, std::greater_equal<T>())};
     }
 
     /**

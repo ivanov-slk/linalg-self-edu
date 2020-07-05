@@ -78,5 +78,33 @@ public:
 template <Number T>
 class ExtractSubmatrixRaw
 {
-    std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data, int row, int col) {}
+public:
+    std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data,
+                                           int row,
+                                           int col,
+                                           std::function<T(T, T)> comparison_op)
+    {
+        std::vector<std::vector<T>> out;
+        out.reserve(data.size());
+        int row_count = 0; // clumsy
+        for (auto &row_el : data)
+        {
+            if (comparison_op(row_count, row))
+            {
+                std::vector<T> temp_row;
+                int col_count = 0; // clumsy
+                for (auto &col_el : row_el)
+                {
+                    if (comparison_op(col_count, col))
+                    {
+                        temp_row.push_back(col_el);
+                    }
+                    col_count++;
+                }
+                out.push_back(temp_row);
+            }
+            row_count++;
+        }
+        return out;
+    }
 };
