@@ -12,8 +12,8 @@ class ExtractRowRaw
 public:
     std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data, int row)
     {
-        std::vector<std::vector<T>> result{std::vector<T>{data.at(row)}};
-        return result;
+        std::vector<std::vector<T>> out{std::vector<T>{data.at(row)}};
+        return out;
     }
 };
 
@@ -26,23 +26,50 @@ class ExtractColumnRaw
 public:
     std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data, int col)
     {
-        std::vector<std::vector<T>> result;
+        std::vector<std::vector<T>> out;
         for (const auto &row : data)
         {
-            result.push_back(std::vector<T>{row.at(col)});
+            out.push_back(std::vector<T>{row.at(col)});
         }
-        return result;
+        return out;
     }
 };
 
 /**
- * @brief Extracts an adjoint matrix raw data from a matrix's raw data.
+ * @brief Extracts a matrix raw data without the given row and/or column from a matrix's raw data.
+ * @param int row: The row to remove. Negative to not remove anything. Starts at zero.
+ * @param int col: The column to remove. Negative to not remove anything. Starts at zero.
+ * @return A raw matrix representation without the given row/column.
  */
 template <Number T>
-class ExtractAdjointRaw
+class ExtractWithoutRaw
 {
 public:
-    std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data, int row, int col) {}
+    std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data, int row, int col)
+    {
+        std::vector<std::vector<T>> out;
+        out.reserve(data.size());
+        int row_count = 0; // clumsy
+        for (auto &row_el : data)
+        {
+            if (row_count != row)
+            {
+                std::vector<T> temp_row;
+                int col_count = 0; // clumsy
+                for (auto &col_el : row_el)
+                {
+                    if (col_count != col)
+                    {
+                        temp_row.push_back(col_el);
+                    }
+                    col_count++;
+                }
+                out.push_back(temp_row);
+            }
+            row_count++;
+        }
+        return out;
+    }
 };
 
 /**

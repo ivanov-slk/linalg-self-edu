@@ -298,12 +298,17 @@ public:
 
     /**
      * @brief Extracts an adjoint matrix from this.
-     * 
-     * @return A matrix representing the requested adjoint of this.
+     * @param int row: The row to remove. Negative to not remove anything. Starts at zero.
+     * @param int col: The column to remove. Negative to not remove anything. Starts at zero.
+     * @return A matrix without the given row and/or column of this.
      */
-    Matrix<T> extract_adjoint(int row, int col)
+    Matrix<T> extract_without(int row, int col)
     {
-        return Matrix<T>{ExtractAdjointRaw<T>()(data, row, col)};
+        if ((row > n_rows - 1) || (col > n_cols - 1))
+        {
+            throw BadDimensionsException("The requested row / column doesn't exist.");
+        }
+        return Matrix<T>{ExtractWithoutRaw<T>()(data, row, col)};
     }
 
     /**
