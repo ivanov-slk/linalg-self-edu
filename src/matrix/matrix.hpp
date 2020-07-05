@@ -367,6 +367,18 @@ public:
     {
         return this->equals(transpose());
     }
+
+    void print_repr()
+    {
+        for (auto &row : data)
+        {
+            for (auto &col : row)
+            {
+                std::cout << "| " << col << " ";
+            }
+            std::cout << "|\n";
+        }
+    }
 };
 
 template <typename T>
