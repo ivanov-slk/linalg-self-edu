@@ -308,7 +308,7 @@ public:
         {
             throw BadDimensionsException("The requested row / column doesn't exist.");
         }
-        return Matrix<T>{ExtractWithoutRaw<T>()(data, row, col)};
+        return Matrix<T>{ExtractSubmatrixRaw<T>()(data, row, col, std::not_equal_to<T>())};
     }
 
     /**
