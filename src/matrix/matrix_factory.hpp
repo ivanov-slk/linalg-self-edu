@@ -49,6 +49,23 @@ public:
         std::vector<std::vector<T>> out;
         int n_rows = vector.get_shape().first;
         int n_cols = vector.get_shape().second;
+
+        for (int i = 0; i < n_rows; ++i)
+        {
+            std::vector<T> temp_row;
+            for (int j = 0; j < n_cols; ++j)
+            {
+                if (i == j)
+                {
+                    temp_row.push_back(vector.extract_element(i, j));
+                }
+                else
+                {
+                    temp_row.push_back(T(0));
+                }
+            }
+            out.push_back(temp_row);
+        }
         return Matrix<T>{out};
     }
 };
