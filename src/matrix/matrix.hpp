@@ -269,6 +269,20 @@ public:
     }
 
     /**
+     * @brief Extracts an element from this.
+     * 
+     * @return The requested element.
+     */
+    T extract_element(int row, int col)
+    {
+        if ((row > n_rows - 1) || (col > n_cols - 1))
+        {
+            throw BadDimensionsException("The requested row / column doesn't exist.");
+        }
+        return ExtractElementRaw<T>()(data, row, col);
+    }
+
+    /**
      * @brief Extracts a row from this.
      * 
      * @return A matrix representing the requested row of this.

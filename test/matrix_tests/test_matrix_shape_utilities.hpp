@@ -223,3 +223,21 @@ TEST(MatrixShapeUtilitiesTests, ExtractSubmatrixThrows2)
             {4., 5., 6.}}};
     ASSERT_THROW(testable.extract_submatrix(1, 3), BadDimensionsException);
 }
+
+TEST(MatrixShapeUtilitiesTests, ExtractElement)
+{
+    Matrix<float> testable{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    ASSERT_EQ(testable.extract_element(1, 2), 6.0);
+}
+
+TEST(MatrixShapeUtilitiesTests, ExtractElementThrows)
+{
+    Matrix<float> testable{
+        std::vector<std::vector<float>>{
+            {1., 2., 3.},
+            {4., 5., 6.}}};
+    ASSERT_THROW(testable.extract_element(1, 3), BadDimensionsException);
+}

@@ -4,6 +4,20 @@
 #include "../customconcepts.hpp"
 
 /**
+ * @brief Extracts an element from a matrix's raw data.
+ */
+template <Number T>
+class ExtractElementRaw
+{
+public:
+    T operator()(const std::vector<std::vector<T>> &data, int row, int col)
+    {
+        T element = data.at(row).at(col);
+        return element;
+    }
+};
+
+/**
  * @brief Extracts a row from a matrix's raw data.
  */
 template <Number T>
