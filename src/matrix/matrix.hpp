@@ -273,7 +273,7 @@ public:
      * 
      * @return The requested element.
      */
-    T extract_element(int row, int col)
+    T extract_element(int row, int col) const
     {
         if ((row > n_rows - 1) || (col > n_cols - 1))
         {
@@ -287,7 +287,7 @@ public:
      * 
      * @return A matrix representing the requested row of this.
      */
-    Matrix<T> extract_row(int row)
+    Matrix<T> extract_row(int row) const
     {
         if (row > n_rows - 1)
         {
@@ -301,7 +301,7 @@ public:
      * 
      * @return A matrix representing the requested column of this.
      */
-    Matrix<T> extract_column(int col)
+    Matrix<T> extract_column(int col) const
     {
         if (col > n_cols - 1)
         {
@@ -316,7 +316,7 @@ public:
      * @param int col: The column to remove. Negative to not remove anything. Starts at zero.
      * @return A matrix without the given row and/or column of this.
      */
-    Matrix<T> extract_without(int row, int col)
+    Matrix<T> extract_without(int row, int col) const
     {
         if ((row > n_rows - 1) || (col > n_cols - 1))
         {
@@ -330,7 +330,7 @@ public:
      * 
      * @return A matrix representing the requested submatrix of this.
      */
-    Matrix<T> extract_submatrix(int row, int col)
+    Matrix<T> extract_submatrix(int row, int col) const
     {
         // row and col must be nonnegative and less than n_rows / n_cols respectively
         if (((row > n_rows - 1) || (col > n_cols - 1)) || ((row < 0) || (col < 0)))
