@@ -2,6 +2,7 @@
 #include <cmath>
 #include <gtest/gtest.h>
 #include "../../src/matrix/matrix.hpp"
+#include "../../src/matrix/qr_decomposition.hpp"
 #include "../../src/exceptions.hpp"
 #include "../../src/customconcepts.hpp"
 
