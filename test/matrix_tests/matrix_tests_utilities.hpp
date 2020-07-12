@@ -10,6 +10,7 @@
 // template <Number T>
 void compare_two_matrices(const Matrix<float> &first, const Matrix<float> &second)
 {
+    ASSERT_EQ(first.get_shape(), second.get_shape());
     std::vector<std::vector<float>> res_data = first.get_data();
     std::vector<std::vector<float>> cor_data = second.get_data();
     for (typename std::vector<float>::size_type i = 0; i < res_data.size(); ++i)
