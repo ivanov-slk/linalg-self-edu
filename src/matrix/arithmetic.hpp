@@ -14,7 +14,7 @@ class Arithmetic
 public:
     std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &left,
                                            const std::vector<std::vector<T>> &right,
-                                           std::function<T(T, T)> &binary_op)
+                                           std::function<T(T, T)> &binary_op) const
     {
         std::vector<std::vector<T>> out;
         out.reserve(left.size());
@@ -37,7 +37,7 @@ public:
 
     std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data,
                                            T scalar,
-                                           std::function<T(T, T)> binary_op)
+                                           std::function<T(T, T)> binary_op) const
     {
         std::vector<std::vector<T>> out;
         out.reserve(data.size());

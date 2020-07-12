@@ -7,3 +7,4 @@
 #include "matrix_tests/test_matrix_properties.hpp"
 #include "matrix_tests/test_matrix_shape_utilities.hpp"
 #include "matrix_tests/test_matrix_transposition.hpp"
+#include "matrix_tests/test_qr_decomposition.hpp"

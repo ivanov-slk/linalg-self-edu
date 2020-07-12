@@ -19,7 +19,7 @@ private:
     Arithmetic<T> arithmetic; // hard-coded "dependency injection" - consider refactoring if needed
     // Just as an idea, consider flattening the representation.
 
-    Matrix<T> do_arithmetic(const Matrix<T> &other, std::function<T(T, T)> binary_op)
+    Matrix<T> do_arithmetic(const Matrix<T> &other, std::function<T(T, T)> binary_op) const
     {
         if (empty())
         {
@@ -95,7 +95,7 @@ public:
     /**
      * @brief Add a matrix to this.
      */
-    Matrix<T> add(const Matrix<T> &other)
+    Matrix<T> add(const Matrix<T> &other) const
     {
         return do_arithmetic(other, std::plus<T>());
     }
@@ -103,7 +103,7 @@ public:
     /**
      * @brief Add a scalar to each element of this.
      */
-    Matrix<T> add(T scalar)
+    Matrix<T> add(T scalar) const
     {
         return arithmetic(data, scalar, std::plus<T>());
     }
@@ -111,7 +111,7 @@ public:
     /**
      * @brief Subtract a matrix from this.
      */
-    Matrix<T> subtract(const Matrix<T> &other)
+    Matrix<T> subtract(const Matrix<T> &other) const
     {
         return do_arithmetic(other, std::minus<T>());
     }
@@ -119,7 +119,7 @@ public:
     /**
      * @brief Subtract a scalar from each element of this.
      */
-    Matrix<T> subtract(T scalar)
+    Matrix<T> subtract(T scalar) const
     {
         return arithmetic(data, scalar, std::minus<T>());
     }
@@ -127,7 +127,7 @@ public:
     /**
      * @brief Multiply a matrix by this elementwise.
      */
-    Matrix<T> el_multiply(const Matrix<T> &other)
+    Matrix<T> el_multiply(const Matrix<T> &other) const
     {
         return do_arithmetic(other, std::multiplies<T>());
     }
@@ -135,7 +135,7 @@ public:
     /**
      * @brief Multiply a matrix by a scalar.
      */
-    Matrix<T> el_multiply(T scalar)
+    Matrix<T> el_multiply(T scalar) const
     {
         return arithmetic(data, scalar, std::multiplies<T>());
     }
@@ -143,7 +143,7 @@ public:
     /**
      * @brief Divide this by other.
      */
-    Matrix<T> el_divide(const Matrix<T> &other)
+    Matrix<T> el_divide(const Matrix<T> &other) const
     {
         return do_arithmetic(other, std::divides<T>());
     }
@@ -151,7 +151,7 @@ public:
     /**
      * @brief Divide each element of this by a scalar.
      */
-    Matrix<T> el_divide(T scalar)
+    Matrix<T> el_divide(T scalar) const
     {
         return arithmetic(data, scalar, std::divides<T>());
     }
@@ -159,7 +159,7 @@ public:
     /**
      * @brief Return new transposed matrix.
      */
-    Matrix<T> transpose()
+    Matrix<T> transpose() const
     {
         // consider a better implementation...
         std::vector<std::vector<T>> out;
@@ -179,7 +179,7 @@ public:
     /**
      * @brief Multiplies two matrices producing new one.
      */
-    Matrix<T> multiply(const Matrix<T> &other)
+    Matrix<T> multiply(const Matrix<T> &other) const
     {
         if (empty())
         {
@@ -231,7 +231,7 @@ public:
      * 
      * Check https://en.wikipedia.org/wiki/Matrix_norm#%22Entrywise%22_matrix_norms.
      */
-    float norm(float p)
+    float norm(float p) const
     {
         float temp_sum = float(0);
         for (typename std::vector<T>::size_type i = 0; i < n_rows; ++i)
@@ -254,7 +254,7 @@ public:
      * Works only for square matrices. Otherwise returns 0.
      * ?? Is it ok to return 0? Why not raise an exception?
      */
-    T trace()
+    T trace() const
     {
         if (n_rows != n_cols)
         {
