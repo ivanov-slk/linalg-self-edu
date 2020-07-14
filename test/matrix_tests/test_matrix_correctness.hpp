@@ -66,3 +66,26 @@ TEST(MatrixCorrectnessTests, NotEqual)
     Matrix<int> testable2{data2};
     ASSERT_FALSE(testable1.equals(testable2));
 }
+
+TEST(MatrixCorrectnessTests, SetElement)
+{
+    std::vector<std::vector<int>> data{
+        {1, 2, 3},
+        {4, 5, 6}};
+    Matrix<int> testable{data};
+    testable.set_element(-1000, 1, 1);
+    Matrix<int> correct{
+        std::vector<std::vector<int>>{
+            {1, 2, 3},
+            {4, -1000, 6}}};
+    ASSERT_EQ(testable, correct);
+}
+
+TEST(MatrixCorrectnessTests, SetElementThrows)
+{
+    std::vector<std::vector<int>> data{
+        {1, 2, 3},
+        {4, 5, 6}};
+    Matrix<int> testable{data};
+    ASSERT_THROW(testable.set_element(-1000, 10, 1), BadDimensionsException);
+}

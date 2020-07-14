@@ -269,6 +269,18 @@ public:
     }
 
     /**
+     * @brief Sets an element to a value.
+     */
+    void set_element(T value, int row, int col)
+    {
+        if ((row > n_rows - 1) || (col > n_cols - 1))
+        {
+            throw BadDimensionsException("The requested element doesn't exist.");
+        }
+        data.at(row).at(col) = value;
+    }
+
+    /**
      * @brief Extracts an element from this.
      * 
      * @return The requested element.
@@ -277,7 +289,7 @@ public:
     {
         if ((row > n_rows - 1) || (col > n_cols - 1))
         {
-            throw BadDimensionsException("The requested row / column doesn't exist.");
+            throw BadDimensionsException("The requested element doesn't exist.");
         }
         return ExtractElementRaw<T>()(data, row, col);
     }
