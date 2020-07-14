@@ -25,3 +25,12 @@ b1 = tf.constant([34.5, 234.34, 876.43, -5.1243, -675.234, 54.2], shape=(6, 1))
 # print(tf.norm(b, ord='fro', axis=(0, 1)))
 print(tf.norm(b1, ord=1))
 print(tf.norm(b1))
+
+# QR decomposition
+print(
+    tf.linalg.qr(
+        tf.constant([
+            12,-51,4,6,167,-68,-4,24,-41]
+        ], shape=(3,3))
+    )
+)

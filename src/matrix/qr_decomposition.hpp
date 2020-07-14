@@ -16,7 +16,9 @@ private:
     {
         // calculate alpha = sign(x[k])||x||
         // the first element of `vector` is the k-th of the decomposable matrix
-        T sign_alpha = (vector.extract_element(k, 0) < 0) ? -1 : 1;
+        T sign_alpha = (vector.extract_element(0, 0) < 0) ? 1 : -1;
+        // ...?1:-1 is aligned with Tensorflow's results; ...?-1:1 is aligned with wikipedia's results
+        // assuming tensorflow is correct, since it is used as a benchmark for the correct results in the tests
         T alpha = sign_alpha * vector.norm(2);
 
         // calculate x - alpha*e_i and make it unit
@@ -56,7 +58,7 @@ public:
                 q_i_multiply_input.extract_submatrix(i, i).extract_column(0),
                 identity.extract_submatrix(i, i).extract_column(0),
                 i);
-            // q_i = q_i.multiply(q_i_resized.extract_submatrix(i, i));
+
             // resize the Householder matrix to the input matrix's dimensions
             Matrix<T> upper_identity = MakeDiagonal<T>()(T(1), i, i);
             Matrix<T> upper_zeroes = MakeSameElement<T>()(T(0), i, n_cols - i);
@@ -65,15 +67,18 @@ public:
                 {upper_identity, upper_zeroes},
                 {lower_zeroes, q_i}};
             Matrix<T> q_i_resized = FlattenVectorOfMatrices<T>()(resize_placeholder);
+
             // store the Householder matrix
             q_i_multiply_input = q_i_resized.multiply(q_i_multiply_input);
+
+            //// convert the almost zero elements to zero (they should be zeroes by theory anyways)
+            for (int j = i + 1; j <= n_iter; ++j)
+            {
+                q_i_multiply_input.set_element(T(0), j, i);
+            }
             matrices_q.push_back(q_i_resized);
         }
         // use all stored Householder matrices to calculate Q and R
-        // for (auto &matrix : std::ranges::views::reverse(matrices_q))
-        // {
-        //     matrix_r = matrix_r.multiply(matrix);
-        // }
         matrix_r = q_i_multiply_input;
         for (auto &matrix : matrices_q)
         {
