@@ -44,6 +44,35 @@ TEST(MatrixMultiplicationTests, MatrixMultiply2)
     compare_two_matrices(result, correct);
 }
 
+TEST(MatrixMultiplicationTests, MatrixMultiply3)
+{
+    // arrange
+    Matrix<float> mat1{
+        std::vector<std::vector<float>>{
+            {1., 2., 3., 4.},
+            {5., 6., 7., 8.},
+            {9., 10., 11., 12.},
+            {13., 14., 15., 16.}}};
+    Matrix<float> mat2{
+        std::vector<std::vector<float>>{
+            {-1., -2., -3.},
+            {-4., -5., -6.},
+            {-7., -8., -9.},
+            {-10., -11., -12.}}};
+    Matrix<float> correct{
+        std::vector<std::vector<float>>{
+            {-70., -80., -90.},
+            {-158., -184., -210.},
+            {-246., -288., -330.},
+            {-334., -392., -450.}}};
+
+    // act
+    Matrix<float> result = mat1.multiply(mat2);
+
+    // assert
+    compare_two_matrices(result, correct);
+}
+
 TEST(MatrixMultiplicationTests, MatrixMultiplyEmpty)
 {
     Matrix<float> mat1{
