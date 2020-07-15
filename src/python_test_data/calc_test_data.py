@@ -27,10 +27,11 @@ print(tf.norm(b1, ord=1))
 print(tf.norm(b1))
 
 # QR decomposition
-print(
-    tf.linalg.qr(
-        tf.constant([
-            12,-51,4,6,167,-68,-4,24,-41]
-        ], shape=(3,3))
-    )
-)
+qr_data = tf.constant([12, -51, 4, 6, 167, -68, -4, 24, -41], shape=(3, 3))
+qr_data = tf.cast(qr_data, tf.float64)
+print(tf.linalg.qr(qr_data))
+
+qr_data_r = tf.constant([12, -51, 4, 6, 167, -68, -4, 24, -41, 10, -24, 8],
+                        shape=(4, 3))
+qr_data_r = tf.cast(qr_data_r, tf.float64)
+print(tf.linalg.qr(qr_data_r))

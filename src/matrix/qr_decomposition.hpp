@@ -61,7 +61,7 @@ public:
 
             // resize the Householder matrix to the input matrix's dimensions
             Matrix<T> upper_identity = MakeDiagonal<T>()(T(1), i, i);
-            Matrix<T> upper_zeroes = MakeSameElement<T>()(T(0), i, n_cols - i);
+            Matrix<T> upper_zeroes = MakeSameElement<T>()(T(0), i, n_rows - i);
             Matrix<T> lower_zeroes = MakeSameElement<T>()(T(0), n_rows - i, i);
             std::vector<std::vector<Matrix<T>>> resize_placeholder{
                 {upper_identity, upper_zeroes},

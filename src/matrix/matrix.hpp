@@ -405,6 +405,7 @@ public:
             }
             std::cout << "|\n";
         }
+        std::cout << '\n';
     }
 };
 
