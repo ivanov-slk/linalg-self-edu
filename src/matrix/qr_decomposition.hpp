@@ -16,13 +16,13 @@ private:
     {
         // calculate alpha = sign(x[k])||x||
         // the first element of `vector` is the k-th of the decomposable matrix
-        T sign_alpha = (vector.extract_element(0, 0) < 0) ? 1 : -1;
+        T sign_alpha = (vector.extract_element(0, 0) < 0) ? -1 : 1;
         // ...?1:-1 is aligned with Tensorflow's results; ...?-1:1 is aligned with wikipedia's results
         // assuming tensorflow is correct, since it is used as a benchmark for the correct results in the tests
         T alpha = sign_alpha * vector.norm(2);
 
         // calculate x - alpha*e_i and make it unit
-        Matrix<T> unit_vector = vector.subtract(basis.el_multiply(alpha));
+        Matrix<T> unit_vector = vector.add(basis.el_multiply(alpha));
         unit_vector = unit_vector.el_divide(unit_vector.norm(2));
 
         // calculate the Householder matrix
@@ -80,9 +80,11 @@ public:
         }
         // use all stored Householder matrices to calculate Q and R
         matrix_r = q_i_multiply_input;
+        matrix_r.print_repr();
         for (auto &matrix : matrices_q)
         {
-            matrix_q = matrix_q.transpose().multiply(matrix.transpose());
+            matrix_q = matrix.multiply(matrix_q);
         }
+        matrix_q = matrix_q.transpose(); // expensive
     }
 };
