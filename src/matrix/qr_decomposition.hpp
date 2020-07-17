@@ -80,7 +80,6 @@ public:
         }
         // use all stored Householder matrices to calculate Q and R
         matrix_r = q_i_multiply_input;
-        matrix_r.print_repr();
         for (auto &matrix : matrices_q)
         {
             matrix_q = matrix.multiply(matrix_q);
