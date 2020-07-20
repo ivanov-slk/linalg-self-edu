@@ -39,31 +39,55 @@ TEST(QRDecompositionTests, QRDecompositionSquare2)
     compare_two_matrices<double>(input_matrix, testable.matrix_q.multiply(testable.matrix_r));
 }
 
-// TEST(QRDecompositionTests, QRDecompositionSquare3)
-// {
-//     Matrix<long double> input_matrix{
-//         std::vector<std::vector<long double>>{
-//             {6, 6, -77, 59},
-//             {-13, 20, -81, 1},
-//             {-33, -35, -65, -74},
-//             {98, 92, 42, 2}}};
-//     QRDecomposer<long double> testable;
-//     testable(input_matrix);
-//     Matrix<long double> correct_q{
-//         std::vector<std::vector<long double>>{
-//             {-0.05747485, -0.01618887, -0.81502153, -0.57634579},
-//             {0.12452884, -0.98526564, -0.06030549, 0.10053572},
-//             {0.31611168, 0.15087768, -0.55752515, 0.75264536},
-//             {-0.93875589, -0.0789016, -0.14583849, 0.30206465}}};
-//     Matrix<long double> correct_r{
-//         std::vector<std::vector<long double>>{
-//             {-104.39348639, -95.28372262, -65.63627902, -28.53626316},
-//             {-0., -32.34211193, 67.93214396, -13.26316034},
-//             {0., -0., 97.75532054, -7.18139135},
-//             {0., 0., 0., -88.9954936}}};
-//     compare_two_matrices<long double>(correct_q, testable.matrix_q);
-//     compare_two_matrices<long double>(correct_r, testable.matrix_r);
-// }
+TEST(QRDecompositionTests, QRDecompositionSquare3)
+{
+    Matrix<double> input_matrix{
+        std::vector<std::vector<double>>{
+            {6., 6., -77., 59.},
+            {-13., 20., -81., 1.},
+            {-33., -35, -65., -74.},
+            {98., 92., 42., 2.}}};
+    QRDecomposer<double> testable;
+    testable(input_matrix);
+    Matrix<double> correct_q{
+        std::vector<std::vector<double>>{
+            {-0.05747485, -0.01618887, -0.81502153, -0.57634579},
+            {0.12452884, -0.98526564, -0.06030549, 0.10053572},
+            {0.31611168, 0.15087768, -0.55752515, 0.75264536},
+            {-0.93875589, -0.0789016, -0.14583849, 0.30206465}}};
+    Matrix<double> correct_r{
+        std::vector<std::vector<double>>{
+            {-104.39348639, -95.28372262, -65.63627902, -28.53626316},
+            {-0., -32.34211193, 67.93214396, -13.26316034},
+            {0., -0., 97.75532054, -7.18139135},
+            {0., 0., 0., -88.9954936}}};
+
+    ////////////////////////////   keep for reference in future testing //////////////////////
+    // // sum stuff
+    // std::vector<std::vector<double>> data = input_matrix.get_data();
+    // double temp_sum = 0.;
+    // for (auto &row : data)
+    // {
+    //     for (auto &el : row)
+    //     {
+    //         temp_sum += el;
+    //     }
+    // }
+    // data = testable.matrix_q.multiply(testable.matrix_r).get_data();
+    // long double result_sum = 0.;
+    // for (auto &row : data)
+    // {
+    //     for (auto &el : row)
+    //     {
+    //         result_sum += el;
+    //     }
+    // }
+    // std::cout << result_sum << "    =======    " << temp_sum << '\n';
+    // ASSERT_DOUBLE_EQ(temp_sum, result_sum);
+    ////////////////////////////   and consider implementing it  //////////////////////
+    compare_two_matrices<double>(correct_q, testable.matrix_q);
+    compare_two_matrices<double>(correct_r, testable.matrix_r);
+}
 
 // TEST(QRDecompositionTests, QRDecompositionColumns)
 // {

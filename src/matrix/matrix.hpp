@@ -232,15 +232,15 @@ public:
      * 
      * Check https://en.wikipedia.org/wiki/Matrix_norm#%22Entrywise%22_matrix_norms.
      */
-    float norm(float p) const
+    T norm(T p) const
     {
-        float temp_sum = float(0);
+        T temp_sum = T(0);
         for (typename std::vector<T>::size_type i = 0; i < n_rows; ++i)
         {
             for (typename std::vector<T>::size_type j = 0; j < n_cols; ++j)
             {
                 // explicit casting, the norm is unlikely to be an integer
-                float current_value = (float)data[i][j];
+                T current_value = data[i][j];
                 // take absolute value (might use std::abs(), but have to manage overloads)
                 // then exponentiate
                 temp_sum += std::pow(((current_value < 0) ? -current_value : current_value), p);

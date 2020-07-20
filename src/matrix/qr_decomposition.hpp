@@ -16,22 +16,22 @@ private:
     {
         // calculate alpha = sign(x[k])||x||
         // the first element of `vector` is the k-th of the decomposable matrix
-        T sign_alpha = (vector.extract_element(0, 0) < 0) ? -1 : 1;
+        T sign_alpha = (vector.extract_element(0, 0) < 0) ? -1. : 1.;
         // ...?1:-1 is aligned with Tensorflow's results; ...?-1:1 is aligned with wikipedia's results
         // assuming tensorflow is correct, since it is used as a benchmark for the correct results in the tests
-        T alpha = sign_alpha * vector.norm(2);
+        T alpha = sign_alpha * vector.norm(2.);
 
         // calculate x - alpha*e_i and make it unit
         Matrix<T> unit_vector = vector.add(basis.el_multiply(alpha));
-        unit_vector = unit_vector.el_divide(unit_vector.norm(2));
+        unit_vector = unit_vector.el_divide(unit_vector.norm(2.));
 
         // calculate the Householder matrix
         int householder_rows = vector.get_shape().first;
-        Matrix<T> basis_matrix = MakeDiagonal<T>()(T(1), householder_rows, householder_rows); // square
+        Matrix<T> basis_matrix = MakeDiagonal<T>()(T(1.), householder_rows, householder_rows); // square
         Matrix<T> householder_matrix = basis_matrix.subtract(
             unit_vector.multiply(
                            unit_vector.transpose())
-                .el_multiply(2));
+                .el_multiply(2.));
         return householder_matrix;
     }
 
