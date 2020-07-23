@@ -1,9 +1,5 @@
 #pragma once
 #include "matrix_tests_utilities.hpp"
-extern "C"
-{
-#include <quadmath.h>
-}
 
 TEST(QRDecompositionTests, QRDecompositionSquare1)
 {
