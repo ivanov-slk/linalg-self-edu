@@ -390,7 +390,7 @@ public:
      * 
      * Relies on the property that A = A^T.
      */
-    bool is_symmetric()
+    bool is_symmetric() const
     {
         return this->equals(transpose());
     }
