@@ -4,7 +4,7 @@
 /**
  * @brief Decomposes a matrix in a matrix of eigenvectors and diagonal matrix of eigenvalues.
  * 
- * The implementation is *slow*.
+ * The implementation is *slow*. Seriously consider refactoring it to something acceptable.
  */
 template <Number T>
 class EigenDecomposer
@@ -12,14 +12,14 @@ class EigenDecomposer
 public:
     Matrix<T> eigenvectors;
     Matrix<T> eigenvalues;
-    Matrix<T> operator()(const Matrix<T> &matrix)
+    void operator()(const Matrix<T> &matrix)
     {
         if (!matrix.is_symmetric())
         {
             throw BadMatrixPropertiesException{"Only symmetric real matrices are supported."};
         }
 
-        Matrix<T> loop_q = matrix; // yes, copy
+        Matrix<T> loop_q = matrix; // yes, copy...
         std::vector<Matrix<T>> loop_q_s;
         for (int i = 0; i < 3000; ++i)
         {
@@ -30,13 +30,15 @@ public:
         }
         QRDecomposer<T> qr_last;
         qr_last(loop_q);
+        // loop_q_s.push_back(qr_last.matrix_q);
 
         // calculate the eigenvectors
         for (auto &q : loop_q_s)
         {
             eigenvectors = eigenvectors.multiply(q);
         }
-        eigenvalues = qr_last.matrix_q.multiply(loop_q.multiply(qr_last.matrix_q.transpose()));
+
+        eigenvalues = loop_q;
         // all non-diagonal entries are by theory zero, so set them up so
         int rows = eigenvalues.get_shape().first;
         int cols = eigenvalues.get_shape().second;
@@ -50,9 +52,5 @@ public:
                 }
             }
         }
-        eigenvalues.print_repr();
-        eigenvectors.print_repr();
-        std::vector<std::vector<T>> out;
-        return Matrix<T>{out};
     }
 };
