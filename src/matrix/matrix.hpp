@@ -16,7 +16,6 @@ private:
     int n_rows = 0;
     int n_cols = 0;
     std::vector<std::vector<T>> data;
-    Arithmetic<T> arithmetic; // hard-coded "dependency injection" - consider refactoring if needed
     // Just as an idea, consider flattening the representation.
 
     Matrix<T> do_arithmetic(const Matrix<T> &other, std::function<T(T, T)> binary_op) const
@@ -30,7 +29,7 @@ private:
         {
             return Matrix<T>{data};
         }
-        return Matrix<T>{arithmetic(data, other.data, binary_op)};
+        return Matrix<T>{Arithmetic<T>()(data, other.data, binary_op)};
     }
 
 public:
@@ -105,7 +104,7 @@ public:
      */
     Matrix<T> add(T scalar) const
     {
-        return arithmetic(data, scalar, std::plus<T>());
+        return Arithmetic<T>()(data, scalar, std::plus<T>());
     }
 
     /**
@@ -121,7 +120,7 @@ public:
      */
     Matrix<T> subtract(T scalar) const
     {
-        return arithmetic(data, scalar, std::minus<T>());
+        return Arithmetic<T>()(data, scalar, std::minus<T>());
     }
 
     /**
@@ -137,7 +136,7 @@ public:
      */
     Matrix<T> el_multiply(T scalar) const
     {
-        return arithmetic(data, scalar, std::multiplies<T>());
+        return Arithmetic<T>()(data, scalar, std::multiplies<T>());
     }
 
     /**
@@ -153,7 +152,7 @@ public:
      */
     Matrix<T> el_divide(T scalar) const
     {
-        return arithmetic(data, scalar, std::divides<T>());
+        return Arithmetic<T>()(data, scalar, std::divides<T>());
     }
 
     /**
@@ -221,6 +220,13 @@ public:
             out.push_back(temp_row);
         }
         return Matrix<T>{out};
+    }
+
+    /**
+     * @brief Invert a matrix. Currently implemented only for symmetric matrices via eigendecomosition.
+     */
+    Matrix<T> invert(const Matrix<T> &other)
+    {
     }
 
     /**
@@ -352,38 +358,6 @@ public:
         }
         return Matrix<T>{ExtractSubmatrixRaw<T>()(data, row, col, std::greater_equal<T>())};
     }
-
-    /**
-     * @brief Calculates the QR decomposition of the matrix.
-     * 
-     * Requires that the matrix is square.
-     */
-    // void qr_decompose()
-    // {
-    //     Matrix<T> matrix_r;
-    //     Matrix<T> matrix_q;
-    //     for (typename std::vector<T> size_type i = 0; i < n_cols; ++i)
-    //     {
-    //         // I need functions to extract rows, columns, adjoint matrices
-    //         // I need function overloads to do arithmetic with scalars
-    //         // I need function to create identity matrix based on given rows and columns
-    //         // I need function to create diagonal matrix from a vector
-    //         // get unit vector from the column
-    //         std::vector<std::vector<T>> col_data;
-    //         for (typename std::vector<T> size_type j = 0; j < n_rows)
-    //             Matrix<T> current_column;
-
-    //         // create an identity matrix
-
-    //         // calculate Q
-
-    //         // resize Q
-
-    //         // update matrix_r
-
-    //         // update matrix_q
-    //     }
-    // }
 
     /**
      * @brief Checks if the matrix is symmetric.
