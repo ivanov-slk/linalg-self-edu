@@ -5,6 +5,8 @@
 #include "../exceptions.hpp"
 #include "arithmetic.hpp"
 #include "shapeutilities.hpp"
+#include "multiplication.hpp"
+#include "transposition.hpp"
 
 /**
  * @brief A matrix.
@@ -104,7 +106,7 @@ public:
      */
     Matrix<T> add(T scalar) const
     {
-        return Arithmetic<T>()(data, scalar, std::plus<T>());
+        return Matrix<T>{Arithmetic<T>()(data, scalar, std::plus<T>())};
     }
 
     /**
@@ -120,7 +122,7 @@ public:
      */
     Matrix<T> subtract(T scalar) const
     {
-        return Arithmetic<T>()(data, scalar, std::minus<T>());
+        return Matrix<T>{Arithmetic<T>()(data, scalar, std::minus<T>())};
     }
 
     /**
@@ -136,7 +138,7 @@ public:
      */
     Matrix<T> el_multiply(T scalar) const
     {
-        return Arithmetic<T>()(data, scalar, std::multiplies<T>());
+        return Matrix<T>{Arithmetic<T>()(data, scalar, std::multiplies<T>())};
     }
 
     /**
@@ -152,7 +154,7 @@ public:
      */
     Matrix<T> el_divide(T scalar) const
     {
-        return Arithmetic<T>()(data, scalar, std::divides<T>());
+        return Matrix<T>{Arithmetic<T>()(data, scalar, std::divides<T>())};
     }
 
     /**
@@ -160,19 +162,7 @@ public:
      */
     Matrix<T> transpose() const
     {
-        // consider a better implementation...
-        std::vector<std::vector<T>> out;
-
-        for (typename std::vector<T>::size_type i = 0; i < n_cols; ++i)
-        {
-            std::vector<T> temp;
-            for (typename std::vector<T>::size_type j = 0; j < n_rows; ++j)
-            {
-                temp.push_back(data[j][i]);
-            }
-            out.push_back(temp);
-        }
-        return Matrix<T>{out};
+        return Matrix<T>{Transposer<T>()(data, get_shape())};
     }
 
     /**
@@ -194,32 +184,7 @@ public:
         {
             throw BadDimensionsException("The dimensions are invalid for matrix multiplication.");
         }
-
-        std::vector<std::vector<T>> out;
-        int out_rows = get_shape().first;
-        int out_cols = other.get_shape().second;
-        /** 
-         * Again, I don't quite like this vector subsetting...
-         * Alternatively, you can _transpose_ one of the matrices, multiply element-wise
-         * two columns and then std::accumulate() them.
-         * 
-         * Or you can just implement Strassen or similar...
-         */
-        for (typename std::vector<T>::size_type i = 0; i < out_rows; ++i)
-        {
-            std::vector<T> temp_row;
-            for (typename std::vector<T>::size_type j = 0; j < out_cols; ++j)
-            {
-                T temp_sum = T(0);
-                for (typename std::vector<T>::size_type k = 0; k < n_cols; ++k)
-                {
-                    temp_sum += data[i][k] * other.data[k][j];
-                }
-                temp_row.push_back(temp_sum);
-            }
-            out.push_back(temp_row);
-        }
-        return Matrix<T>{out};
+        return Matrix<T>{MatrixMultiplicatorRaw<T>()(data, other.data)};
     }
 
     /**
