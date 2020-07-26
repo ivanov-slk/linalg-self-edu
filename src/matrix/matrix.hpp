@@ -190,9 +190,9 @@ public:
     /**
      * @brief Invert a matrix. Currently implemented only for symmetric matrices via eigendecomosition.
      */
-    Matrix<T> invert(const Matrix<T> &other)
-    {
-    }
+    // Matrix<T> invert(const Matrix<T> &other)
+    // {
+    // }
 
     /**
      * @brief Take the norm of the matrix.
@@ -332,6 +332,26 @@ public:
     bool is_symmetric() const
     {
         return this->equals(transpose());
+    }
+
+    /**
+     * @brief Check if the matrix is diagonal.
+     * 
+     * Consider refactoring.
+     */
+    bool is_diagonal() const
+    {
+        for (int i = 0; i < n_rows; ++i)
+        {
+            for (int j = 0; j < n_cols; ++j)
+            {
+                if ((i != j) & (data[i][j] != T(0)))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     void print_repr()

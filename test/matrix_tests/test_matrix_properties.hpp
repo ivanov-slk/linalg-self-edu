@@ -79,6 +79,59 @@ TEST(MatrixPropertiesTests, NotSymmetric)
     ASSERT_FALSE(testable.is_symmetric());
 }
 
+// test is_diagonal
+TEST(MatrixPropertiesTests, Diagonal)
+{
+    Matrix<double> testable{std::vector<std::vector<double>>{
+        {1., 0., 0.},
+        {0., 1., 0.},
+        {0., 0., 1.}}};
+    ASSERT_TRUE(testable.is_diagonal());
+}
+
+TEST(MatrixPropertiesTests, Diagonal1)
+{
+    Matrix<double> testable{std::vector<std::vector<double>>{
+        {1., 0.},
+        {0., 1.},
+        {0., 0.}}};
+    ASSERT_TRUE(testable.is_diagonal());
+}
+
+TEST(MatrixPropertiesTests, Diagonal2)
+{
+    Matrix<double> testable{std::vector<std::vector<double>>{
+        {1., 0., 0.},
+        {0., 1., 0.}}};
+    ASSERT_TRUE(testable.is_diagonal());
+}
+
+TEST(MatrixPropertiesTests, NotDiagonal)
+{
+    Matrix<double> testable{std::vector<std::vector<double>>{
+        {1., 0., 0.},
+        {0., 1., 2.},
+        {0., 0., 1.}}};
+    ASSERT_FALSE(testable.is_diagonal());
+}
+
+TEST(MatrixPropertiesTests, NotDiagonal1)
+{
+    Matrix<double> testable{std::vector<std::vector<double>>{
+        {1., 0.},
+        {0., 1.},
+        {0., 2.}}};
+    ASSERT_FALSE(testable.is_diagonal());
+}
+
+TEST(MatrixPropertiesTests, NotDiagonal2)
+{
+    Matrix<double> testable{std::vector<std::vector<double>>{
+        {1., 0., 0.},
+        {0., 1., 2.}}};
+    ASSERT_FALSE(testable.is_diagonal());
+}
+
 // test frobenius norm = sqroot(trace(A*A^T))
 TEST(MatrixPropertiesTests, FrobeniusEqualsTrace)
 {
