@@ -1,4 +1,5 @@
 #pragma once
+#include "matrix.hpp"
 #include "qr_decomposition.hpp"
 
 /**
@@ -30,7 +31,6 @@ public:
         }
         QRDecomposer<T> qr_last;
         qr_last(loop_q);
-        // loop_q_s.push_back(qr_last.matrix_q);
 
         // calculate the eigenvectors
         for (auto &q : loop_q_s)
