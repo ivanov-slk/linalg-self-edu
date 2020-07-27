@@ -37,3 +37,9 @@ release
 *.exe
 *.out
 *.app
+
+# Pictures
+*.png
+*.jpg
+*.pdf
+*.bnp
