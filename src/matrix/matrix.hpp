@@ -187,11 +187,16 @@ public:
         return Matrix<T>{MatrixMultiplicatorRaw<T>()(data, other.data)};
     }
 
-    /**
-     * @brief Invert a matrix. Currently implemented only for symmetric matrices via eigendecomosition.
-     */
-    // Matrix<T> invert(const Matrix<T> &other)
+    // Not implemented because of circular includes. Use MatrixInverter<T> directly instead.
+    // /**
+    //  * @brief Invert a matrix. Currently implemented only for symmetric matrices via eigendecomosition.
+    //  */
+    // Matrix<T>
+    // invert()
     // {
+
+    //     Matrix<T> out;
+    //     return MatrixInverter<T>()(this);
     // }
 
     /**
@@ -368,7 +373,7 @@ public:
     }
 };
 
-template <typename T>
+template <Number T>
 bool operator==(const Matrix<T> lhs, const Matrix<T> rhs)
 {
     return lhs.equals(rhs);

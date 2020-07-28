@@ -5,6 +5,7 @@
 #include "../../src/matrix/matrix_factory.hpp"
 #include "../../src/matrix/qr_decomposition.hpp"
 #include "../../src/matrix/eigendecomposition.hpp"
+#include "../../src/matrix/inversion.hpp"
 #include "../../src/exceptions.hpp"
 #include "../../src/customconcepts.hpp"
 
