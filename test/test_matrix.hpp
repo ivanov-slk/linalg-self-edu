@@ -1,6 +1,7 @@
 #pragma once
 
 #include "matrix_tests/test_eigendecomposition.hpp"
+#include "matrix_tests/test_matrix_aggregation.hpp"
 #include "matrix_tests/test_matrix_arithmetic.hpp"
 #include "matrix_tests/test_matrix_correctness.hpp"
 #include "matrix_tests/test_matrix_factory.hpp"

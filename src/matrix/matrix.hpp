@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "../exceptions.hpp"
+#include "aggregation.hpp"
 #include "arithmetic.hpp"
 #include "shapeutilities.hpp"
 #include "multiplication.hpp"
@@ -63,13 +64,15 @@ public:
      * @brief Checks if the matrix is empty.
      * @return bool true if the matrix is empty.
      */
-    bool empty() const { return data.empty(); }
+    bool empty() const {
+        return data.empty();
+    }
 
     /**
      * @brief Checks if two matrices are equal.
      * @param other Matrix
      * @return bool true if matrices are equal.
-     * 
+     *
      * ...should hash be also implemented?
      * ...should T be used again? What about different number template and cast?
      */
@@ -80,7 +83,7 @@ public:
 
     /**
      * @brief Get the shape of the matrix
-     * 
+     *
      * @return std::pair<int, int> - `first` is the number of rows, `second` is the number of columns
      */
     std::pair<int, int> get_shape() const
@@ -91,7 +94,9 @@ public:
     /**
      * @brief Get the raw data.
      */
-    std::vector<std::vector<T>> get_data() const { return data; }
+    std::vector<std::vector<T>> get_data() const {
+        return data;
+    }
 
     /**
      * @brief Add a matrix to this.
@@ -158,6 +163,15 @@ public:
     }
 
     /**
+     * @brief Sums a matrix along a given axis. If -1 is supplied,
+     * the total sum is returned.
+     */
+    Matrix<T> sum(int axis)
+    {
+        return Matrix<T>{SumRaw<T>()(data, axis)};
+    }
+
+    /**
      * @brief Return new transposed matrix.
      */
     Matrix<T> transpose() const
@@ -201,11 +215,11 @@ public:
 
     /**
      * @brief Take the norm of the matrix.
-     * 
+     *
      * Note that if the matrix has only one row / column, the vector norm is returned.
      * Otherwise, the "entrywise" norm of the whole matrix is returned. For p=2,
      * this is the Frobenius norm.
-     * 
+     *
      * Check https://en.wikipedia.org/wiki/Matrix_norm#%22Entrywise%22_matrix_norms.
      */
     T norm(T p) const
@@ -227,7 +241,7 @@ public:
 
     /**
      * @brief Find the trace of the matrix.
-     * 
+     *
      * Works only for square matrices. Otherwise returns 0.
      * ?? Is it ok to return 0? Why not raise an exception?
      */
@@ -259,7 +273,7 @@ public:
 
     /**
      * @brief Extracts an element from this.
-     * 
+     *
      * @return The requested element.
      */
     T extract_element(int row, int col) const
@@ -273,7 +287,7 @@ public:
 
     /**
      * @brief Extracts a row from this.
-     * 
+     *
      * @return A matrix representing the requested row of this.
      */
     Matrix<T> extract_row(int row) const
@@ -287,7 +301,7 @@ public:
 
     /**
      * @brief Extracts a column from this.
-     * 
+     *
      * @return A matrix representing the requested column of this.
      */
     Matrix<T> extract_column(int col) const
@@ -316,7 +330,7 @@ public:
 
     /**
      * @brief Extracts a submatrix from this.
-     * 
+     *
      * @return A matrix representing the requested submatrix of this.
      */
     Matrix<T> extract_submatrix(int row, int col) const
@@ -331,7 +345,7 @@ public:
 
     /**
      * @brief Checks if the matrix is symmetric.
-     * 
+     *
      * Relies on the property that A = A^T.
      */
     bool is_symmetric() const
@@ -341,7 +355,7 @@ public:
 
     /**
      * @brief Check if the matrix is diagonal.
-     * 
+     *
      * Consider refactoring.
      */
     bool is_diagonal() const
