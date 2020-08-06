@@ -11,22 +11,24 @@ template <Number T>
 class SumRaw
 {
 private:
-    std::vector<std::vector<T>> sum_columns(std::vector<std::vector<T>> data)
+    std::vector<std::vector<T>> sum_columns(std::vector<std::vector<T>> data, T power)
     {
         std::vector<std::vector<T>> out;
         for (auto &row : data)
         {
             std::vector<T> temp_row;
-            T row_sum = std::accumulate(row.begin(),
-                row.end(),
-                0);
+            T row_sum = T(0);
+            for (auto &col : row)
+            {
+                row_sum += std::pow(col, power);
+            }
             temp_row.push_back(row_sum);
             out.push_back(temp_row);
         }
         return out;
     }
 
-    std::vector<std::vector<T>> sum_rows(std::vector<std::vector<T>> data)
+    std::vector<std::vector<T>> sum_rows(std::vector<std::vector<T>> data, T power)
     {
         std::vector<std::vector<T>> out;
         std::vector<T> sum_row;
@@ -38,10 +40,10 @@ private:
             for (typename std::vector<T>::size_type j = 0; j < data[i].size(); ++j)
             {
                 if (first == true) {
-                    sum_row.push_back(data[i][j]);
+                    sum_row.push_back(std::pow(data[i][j], power));
                 }
                 else {
-                    sum_row.at(counter) += data[i][j];
+                    sum_row.at(counter) += std::pow(data[i][j], power);
                 }
                 ++counter;
             }
@@ -51,7 +53,7 @@ private:
         return out;
     }
 
-    std::vector<std::vector<T>> sum_all(std::vector<std::vector<T>> data)
+    std::vector<std::vector<T>> sum_all(std::vector<std::vector<T>> data, T power)
     {
         std::vector<std::vector<T>> out;
         std::vector<T> sum_row;
@@ -60,7 +62,7 @@ private:
         {
             for (auto &col : row)
             {
-                total += col;
+                total += std::pow(col, power);
             }
         }
         sum_row.push_back(total);
@@ -69,19 +71,19 @@ private:
     }
 
 public:
-    std::vector<std::vector<T>> operator()(std::vector<std::vector<T>> data, int axis)
+    std::vector<std::vector<T>> operator()(std::vector<std::vector<T>> data, int axis, T power)
     {
         if (axis == 0)
         {
-            return sum_columns(data);
+            return sum_columns(data, power);
         }
         else if (axis == 1)
         {
-            return sum_rows(data);
+            return sum_rows(data, power);
         }
         else if (axis == -1)
         {
-            return sum_all(data);
+            return sum_all(data, power);
         }
         std::vector<std::vector<T>> out;
         return out;

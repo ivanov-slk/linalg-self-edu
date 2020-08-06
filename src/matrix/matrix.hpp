@@ -164,11 +164,12 @@ public:
 
     /**
      * @brief Sums a matrix along a given axis. If -1 is supplied,
-     * the total sum is returned.
+     * the total sum is returned. Optionally, each matrix element can
+     * be raised to `power` before summing.
      */
-    Matrix<T> sum(int axis)
+    Matrix<T> sum(int axis, T power)
     {
-        return Matrix<T>{SumRaw<T>()(data, axis)};
+        return Matrix<T>{SumRaw<T>()(data, axis, power)};
     }
 
     /**
