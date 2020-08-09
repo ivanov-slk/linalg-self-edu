@@ -7,7 +7,7 @@
  */
 template <Number T>
 class MakeDiagonal
-// Most of the code here is duplicated. Consider refactoring to lambda or something.
+    // Most of the code here is duplicated. Consider refactoring to lambda or something.
 {
 public:
     /**
@@ -37,10 +37,10 @@ public:
 
     /**
      * @brief Makes a diagonal matrix from a matrix.
-     * 
+     *
      * If the matrix is a vector (n x 1 or 1 x n), the result is a square matrix with the vector's
      * elements on the main diagonal.
-     * 
+     *
      * If the matrix is not a vector, a new matrix is returned,
      * where all off-(main)-diagonal entries are 0-s. If the matrix is not square, the "main diagonal"
      * is assumed to be the set of elements with i=j for "i" the row index and "j" the column index.
@@ -51,14 +51,29 @@ public:
         int n_rows = vector.get_shape().first;
         int n_cols = vector.get_shape().second;
 
-        for (int i = 0; i < n_rows; ++i)
+        int out_rows = (n_rows > 1) ? n_rows : n_cols;
+        int out_cols = (n_cols > 1) ? n_cols : n_rows;
+
+        for (int i = 0; i < out_rows; ++i)
         {
             std::vector<T> temp_row;
-            for (int j = 0; j < n_cols; ++j)
+            for (int j = 0; j < out_cols; ++j)
             {
                 if (i == j)
                 {
-                    temp_row.push_back(vector.extract_element(i, j));
+                    // formally, adds only a constant to the overall complexity...
+                    if (n_rows == 1)
+                    {
+                        temp_row.push_back(vector.extract_element(0, j));
+                    }
+                    else if (n_cols == 1)
+                    {
+                        temp_row.push_back(vector.extract_element(i, 0));
+                    }
+                    else
+                    {
+                        temp_row.push_back(vector.extract_element(i, j));
+                    }
                 }
                 else
                 {
@@ -96,7 +111,7 @@ public:
 
 /**
  * @brief Makes a matrix from a vector of matrices.
- * 
+ *
  * This is implemented for the QR decomposition, so consider generalizing/refactoring it.
  * And consider making the implementation more efficient, since now is sort of terrible.
  */
