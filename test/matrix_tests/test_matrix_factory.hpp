@@ -33,7 +33,6 @@ TEST(MatrixFactoryTests, MakeDiagonal_1x1)
     Matrix<float> correct{
         std::vector<std::vector<float>>{
             {1.0}} };
-    testable.print_repr();
     ASSERT_EQ(testable, correct);
 }
 
@@ -48,7 +47,6 @@ TEST(MatrixFactoryTests, MakeDiagonal_1xN)
             {1.0, 0.0, 0.0},
             { 0.0, 3.2, 0.0 },
         { 0.0, 0.0, 5.2 }} };
-    testable.print_repr();
     ASSERT_EQ(testable, correct);
 }
 
@@ -65,7 +63,6 @@ TEST(MatrixFactoryTests, MakeDiagonal_Nx1)
             {1.0, 0.0, 0.0},
             { 0.0, 2.5, 0.0 },
         { 0.0, 0.0, -5.2 }} };
-    testable.print_repr();
     ASSERT_EQ(testable, correct);
 }
 
