@@ -10,15 +10,15 @@ template <Number T>
 class SVDDecomposer
 {
 public:
+    Matrix<T> matrix_u;
+    Matrix<T> matrix_v;
+    Matrix<T> matrix_s;
     void operator()(const Matrix<T> &matrix)
     {
         int n_rows = matrix.get_shape().first;
         int n_cols = matrix.get_shape().second;
         T eps = 0.00000001;
         Matrix<T> matrix_b;
-        Matrix<T> matrix_u;
-        Matrix<T> matrix_v;
-        Matrix<T> matrix_s;
 
         if (n_rows > n_cols)
         {
@@ -73,6 +73,10 @@ public:
                 }
             }
         }
+        matrix_s = MakeDiagonal<T>()(matrix_b);
+        matrix_u.print_repr();
+        matrix_s.print_repr();
+        matrix_v.print_repr();
     }
 };
 
