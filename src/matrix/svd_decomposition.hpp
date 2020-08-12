@@ -118,7 +118,7 @@ public:
         }
 
         // initialize the output matrices
-        matrix_u = MakeDiagonal<T>()(1., n_rows, n_cols);
+        matrix_u = MakeDiagonal<T>()(1., n_rows, n_rows);
         matrix_v = MakeDiagonal<T>()(1., n_cols, n_cols);
 
         // Adjust the matrices
@@ -148,7 +148,8 @@ public:
                         + std::pow(matrix_b.extract_element(j, i), 2);
                     // std::cout <<"============================   " << convergence_status << ">>>>>>>>>>>>>>>>>\n\n";
 
-                    // do the 2x2 svd
+                    // do the 2x2 svd.first << "    " << matrix_u.get_shape().second << "   ------------------\n\n";
+        // std::cout << matrix_v.get_shape()
                     SVD2x2Decomposer<T> svd_2x2;
                     auto [c1, s1, c2, s2, d1, d2] = svd_2x2(
                         matrix_b.extract_element(i, i),
@@ -181,13 +182,13 @@ public:
                     // test_rot_v2.set_element(matrix_b.extract_element(j, j), j, i);
 
                     // create the right and left rotation matrices
-                    Matrix<T> matrix_left_rot = MakeDiagonal<T>()(T(1), n_rows, n_cols);
+                    Matrix<T> matrix_left_rot = MakeDiagonal<T>()(T(1), n_rows, n_rows);
                     matrix_left_rot.set_element(c1, i, i);
                     matrix_left_rot.set_element(c1, j, j);
                     matrix_left_rot.set_element(-s1, i, j);
                     matrix_left_rot.set_element(s1, j, i);
 
-                    Matrix<T> matrix_right_rot = MakeDiagonal<T>()(T(1), n_rows, n_cols);
+                    Matrix<T> matrix_right_rot = MakeDiagonal<T>()(T(1), n_cols, n_cols);
                     matrix_right_rot.set_element(c2, i, i);
                     matrix_right_rot.set_element(c2, j, j);
                     matrix_right_rot.set_element(-s2, i, j);
@@ -208,20 +209,20 @@ public:
 
                     // matrix_left_rot.multiply(test_rot).multiply(matrix_right_rot).print_repr();
 
-                    matrix_b.print_repr();
+                    // matrix_b.print_repr();
                     matrix_b = matrix_left_rot.multiply(matrix_b).multiply(matrix_right_rot.transpose());
                     // matrix_b.set_element(d1, i, i);
                     // matrix_b.set_element(d2, j, j);
                     // matrix_b.set_element(T(0), i, j);
                     // matrix_b.set_element(T(0), j, i);
-                    matrix_b.print_repr();
+                    // matrix_b.print_repr();
                     // matrix_singular_values.print_repr();
-                    std::cout << d1 << " " << d2 << "<<<<<<<<<<<<<<<<<<<<<<<\n";
+                    // std::cout << d1 << " " << d2 << "<<<<<<<<<<<<<<<<<<<<<<<\n";
                     // matrix_left_rot.print_repr();
                     // matrix_right_rot.print_repr();
                     // matrix_u = matrix_u.multiply(matrix_left_rot);
                     matrix_u = matrix_left_rot.multiply(matrix_u);
-                    matrix_v = matrix_v.multiply(matrix_right_rot.transpose());
+                    matrix_v = matrix_right_rot.multiply(matrix_v);
                     // matrix_v = matrix_right_rot.multiply(matrix_v);
 
                     // matrix_u.print_repr();
@@ -233,11 +234,14 @@ public:
             }
         } while (convergence_status > tolerance);
         matrix_s = MakeDiagonal<T>()(matrix_b);
+        matrix_u = matrix_u.transpose();
+        // std::cout << matrix_u.get_shape().first << "    " << matrix_u.get_shape().second << "   ------------------\n\n";
+        // std::cout << matrix_v.get_shape().first << "    " << matrix_v.get_shape().second << "   ------------------\n\n";
         matrix_b.print_repr();
         matrix_s.print_repr();
         matrix_u.print_repr();
         matrix_v.print_repr();
-        std::cout << "Number of iterations: " << counter << "\n\n\n\n";
+        std::cout << "Number of iterations: " << counter << "\n";
     }
 };
 
