@@ -12,7 +12,6 @@ TEST(SVDDecompositionTests, SVDDecompositionSquare)
     testable(input_matrix);
     Matrix<double> result = testable.matrix_u.multiply(testable.matrix_s)
         .multiply(testable.matrix_v);
-    result.print_repr();
     compare_two_matrices(input_matrix, result);
     ASSERT_FLOAT_EQ(result.sum(-1, 1).extract_element(0, 0),
         input_matrix.sum(-1, 1).extract_element(0, 0));
@@ -30,7 +29,6 @@ TEST(SVDDecompositionTests, SVDDecompositionRows)
     testable(input_matrix);
     Matrix<double> result = testable.matrix_u.multiply(testable.matrix_s)
         .multiply(testable.matrix_v);
-    result.print_repr();
     compare_two_matrices(input_matrix, result);
     ASSERT_FLOAT_EQ(result.sum(-1, 1).extract_element(0, 0),
         input_matrix.sum(-1, 1).extract_element(0, 0));
@@ -47,7 +45,6 @@ TEST(SVDDecompositionTests, SVDDecompositionColumns)
     testable(input_matrix);
     Matrix<double> result = testable.matrix_u.multiply(testable.matrix_s)
         .multiply(testable.matrix_v);
-    result.print_repr();
     compare_two_matrices(input_matrix, result);
     ASSERT_FLOAT_EQ(result.sum(-1, 1).extract_element(0, 0),
         input_matrix.sum(-1, 1).extract_element(0, 0));
