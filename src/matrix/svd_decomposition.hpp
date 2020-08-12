@@ -106,6 +106,7 @@ public:
         // get shape and transpose if necessary
         int n_rows = matrix.get_shape().first;
         int n_cols = matrix.get_shape().second;
+        bool transpose = false;
         Matrix<T> matrix_b;
         if (n_rows >= n_cols)
         {
@@ -115,6 +116,7 @@ public:
         {
             matrix_b = matrix.transpose();
             std::swap(n_rows, n_cols);
+            transpose = true;
         }
 
         // initialize the output matrices
@@ -234,7 +236,17 @@ public:
             }
         } while (convergence_status > tolerance);
         matrix_s = MakeDiagonal<T>()(matrix_b);
-        matrix_u = matrix_u.transpose();
+        if (transpose == false)
+        {
+            matrix_u = matrix_u.transpose();
+        }
+        else
+        {
+            // std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+            matrix_s = matrix_s.transpose();
+            matrix_v = matrix_v.transpose();
+            std::swap(matrix_u, matrix_v);
+        }
         // std::cout << matrix_u.get_shape().first << "    " << matrix_u.get_shape().second << "   ------------------\n\n";
         // std::cout << matrix_v.get_shape().first << "    " << matrix_v.get_shape().second << "   ------------------\n\n";
         matrix_b.print_repr();
