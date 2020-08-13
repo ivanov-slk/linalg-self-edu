@@ -54,5 +54,5 @@ cd ${DIR}/.git-hooks
 echo "$(printf '%(%Y-%m-%d %H:%M:%S)T\n' -1) [PRE-COMMIT HOOK] in $(pwd)"
 bash run_build.sh
 build_code=$?
-printf "$(printf '%(%Y-%m-%d %H:%M:%S)T\n' -1) [PRE-COMMIT HOOK] Finished with exit code ${build_code}"
+printf "$(printf '%(%Y-%m-%d %H:%M:%S)T\n' -1) [PRE-COMMIT HOOK] Finished with exit code ${build_code}\n"
 exit ${build_code} # explicit
