@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # An example hook script to verify what is about to be committed.
 # Called by "git commit" with no arguments.  The hook should
@@ -50,7 +50,7 @@ fi
 
 echo "\n$(printf '%(%Y-%m-%d %H:%M:%S)T\n' -1) [PRE-COMMIT HOOK] Starting..."
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd ${DIR}/.git-hooks
+cd ${DIR}
 echo "$(printf '%(%Y-%m-%d %H:%M:%S)T\n' -1) [PRE-COMMIT HOOK] in $(pwd)"
 bash run_build.sh
 build_code=$?
