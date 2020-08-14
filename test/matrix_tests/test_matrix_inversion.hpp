@@ -14,7 +14,7 @@ TEST(MatrixInversionTests, Inversion1)
             {0.0018513643, 0.10535964, 0.086877048},
             {0.10535964, 0.0055443528, -0.048061009},
             {0.086877048, -0.048061009, 0.083177298}}};
-    compare_two_matrices(correct, MatrixInverter<double>()(input_matrix));
+    compare_two_matrices(correct, MatrixInverter<double>()(input_matrix, false));
 }
 
 TEST(MatrixInversionTests, Inversion2)
@@ -32,13 +32,54 @@ TEST(MatrixInversionTests, Inversion2)
             {0.13296903, -0.0273224, -0.10078931, -0.04128719},
             {0.05727115, 0.03952218, -0.04128719, -0.07645331}}};
 
-    compare_two_matrices(correct, MatrixInverter<double>()(input_matrix));
+    compare_two_matrices(correct, MatrixInverter<double>()(input_matrix, false));
 }
+
 TEST(MatrixInversionTests, InversionThrows)
 {
     Matrix<double> input_matrix{
         std::vector<std::vector<double>>{
             {0.70000, 0.70711},
             {0.70001, 0.70711}}};
-    ASSERT_THROW(MatrixInverter<double>()(input_matrix), BadMatrixPropertiesException);
+    ASSERT_THROW(MatrixInverter<double>()(input_matrix, false), BadMatrixPropertiesException);
+}
+
+TEST(MatrixInversionTests, PseudoInversion1)
+{
+    Matrix<double> input_matrix{
+        std::vector<std::vector<double>>{
+            {1., 0.},
+            {1., 0.}}};
+    Matrix<double> correct{
+        std::vector<std::vector<double>>{
+            {0.5, 0.5},
+            {0., 0.}}};
+    compare_two_matrices(correct, MatrixInverter<double>()(input_matrix, true));
+}
+
+TEST(MatrixInversionTests, PseudoInversion2)
+{
+    Matrix<double> input_matrix{
+        std::vector<std::vector<double>>{
+            {1., 0.},
+            {2., 0.}}};
+    Matrix<double> correct{
+        std::vector<std::vector<double>>{
+            {0.2, 0.4},
+            {0., 0.}}};
+    compare_two_matrices(correct, MatrixInverter<double>()(input_matrix, true));
+}
+
+TEST(MatrixInversionTests, PseudoInversion3)
+{
+    Matrix<double> input_matrix{
+        std::vector<std::vector<double>>{
+            {1., 0.},
+            {0., 1.},
+            {0., 1.}}};
+    Matrix<double> correct{
+        std::vector<std::vector<double>>{
+            {1., 0., 0.},
+            {0., 0.5, 0.5}}};
+    compare_two_matrices(correct, MatrixInverter<double>()(input_matrix, true));
 }
