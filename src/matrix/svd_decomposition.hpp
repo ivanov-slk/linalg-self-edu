@@ -58,17 +58,14 @@ public:
             {
                 for (int j = i + 1; j < n_cols; ++j)
                 {
-                    convergence_status = convergence_status
-                        + std::pow(matrix_b.extract_element(i, j), 2)
-                        + std::pow(matrix_b.extract_element(j, i), 2);
+                    convergence_status = convergence_status + std::pow(matrix_b.extract_element(i, j), 2) + std::pow(matrix_b.extract_element(j, i), 2);
 
                     SVD2x2Decomposer<T> svd_2x2;
                     auto [c1, s1, c2, s2, d1, d2] = svd_2x2(
                         matrix_b.extract_element(i, i),
                         matrix_b.extract_element(i, j),
                         matrix_b.extract_element(j, i),
-                        matrix_b.extract_element(j, j)
-                    );
+                        matrix_b.extract_element(j, j));
 
                     // create the right and left rotation matrices
                     Matrix<T> matrix_left_rot = MakeDiagonal<T>()(T(1), n_rows, n_rows);
@@ -133,7 +130,7 @@ public:
             z = d;
             c2 = 1;
             // std::cout << "my short\n";
-            return std::tuple{ x, y, z, s2, c2 };
+            return std::tuple{x, y, z, s2, c2};
         }
         T max_denom = std::max(std::abs(c), std::abs(d));
         T recip_max_denom = 1 / max_denom;
@@ -151,7 +148,7 @@ public:
         c2 = d * denom;
 
         // std::cout << "my long\n";
-        return std::tuple{ x, y, z, s2, c2 };
+        return std::tuple{x, y, z, s2, c2};
     }
 };
 
@@ -162,8 +159,9 @@ public:
  * Follows this SO answer with minor modifications:
  * https://scicomp.stackexchange.com/a/28506/36712
  */
-template<Number T>
-class SVD2x2Decomposer {
+template <Number T>
+class SVD2x2Decomposer
+{
 public:
     std::tuple<T, T, T, T, T, T> operator()(T a, T b, T c, T d)
     {

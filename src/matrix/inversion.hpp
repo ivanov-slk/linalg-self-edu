@@ -38,9 +38,6 @@ public:
         {
             SVDDecomposer<T> svd;
             svd(matrix);
-            svd.matrix_u.print_repr();
-            svd.matrix_s.print_repr();
-            svd.matrix_v.print_repr();
             out = svd.matrix_v.transpose().multiply(invert_diagonal(svd.matrix_s).transpose()).multiply(svd.matrix_u.transpose());
         }
         else
