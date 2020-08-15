@@ -1,6 +1,7 @@
 #pragma once
 #include <concepts>
 #include <cmath>
+#include <functional>
 
 #include "../exceptions.hpp"
 #include "aggregation.hpp"
@@ -64,7 +65,8 @@ public:
      * @brief Checks if the matrix is empty.
      * @return bool true if the matrix is empty.
      */
-    bool empty() const {
+    bool empty() const
+    {
         return data.empty();
     }
 
@@ -94,7 +96,8 @@ public:
     /**
      * @brief Get the raw data.
      */
-    std::vector<std::vector<T>> get_data() const {
+    std::vector<std::vector<T>> get_data() const
+    {
         return data;
     }
 
@@ -314,34 +317,70 @@ public:
         return Matrix<T>{ExtractColumnRaw<T>()(data, col)};
     }
 
-    /**
-     * @brief Extracts an adjoint matrix from this.
-     * @param int row: The row to remove. Negative to not remove anything. Starts at zero.
-     * @param int col: The column to remove. Negative to not remove anything. Starts at zero.
-     * @return A matrix without the given row and/or column of this.
-     */
-    Matrix<T> extract_without(int row, int col) const
-    {
-        if ((row > n_rows - 1) || (col > n_cols - 1))
-        {
-            throw BadDimensionsException("The requested row / column doesn't exist.");
-        }
-        return Matrix<T>{ExtractSubmatrixRaw<T>()(data, row, col, std::not_equal_to<T>())};
-    }
+    // /**
+    //  * @brief Extracts an adjoint matrix from this.
+    //  * @param int row: The row to remove. Negative to not remove anything. Starts at zero.
+    //  * @param int col: The column to remove. Negative to not remove anything. Starts at zero.
+    //  * @return A matrix without the given row and/or column of this.
+    //  */
+    // Matrix<T> extract_without(int row, int col) const
+    // {
+    //     if ((row > n_rows - 1) || (col > n_cols - 1))
+    //     {
+    //         throw BadDimensionsException("The requested row / column doesn't exist.");
+    //     }
+    //     return Matrix<T>{ExtractSubmatrixRaw<T>()(data, row, col, std::not_equal_to<T>())};
+    // }
 
     /**
      * @brief Extracts a submatrix from this.
-     *
+     * @param int row: The row to remove. Negative to not remove anything. Zero-indexed.
+     * @param int col: The column to remove. Negative to not remove anything. Zero-indexed.
+     * @param std::function<T(T, T)> row_comparison_op: Comparison function object
+     * @param std::function<T(T, T)> col_comparison_op: Comparison function object
      * @return A matrix representing the requested submatrix of this.
      */
-    Matrix<T> extract_submatrix(int row, int col) const
+    Matrix<T> extract_submatrix(int row,
+                                int col,
+                                std::function<T(T, T)> row_comparison_op,
+                                std::function<T(T, T)> col_comparison_op) const
     {
         // row and col must be nonnegative and less than n_rows / n_cols respectively
-        if (((row > n_rows - 1) || (col > n_cols - 1)) || ((row < 0) || (col < 0)))
+        if (((row > n_rows) || (col > n_cols)) || ((row < 0) || (col < 0)))
         {
             throw BadDimensionsException("The requested row / column doesn't exist.");
         }
-        return Matrix<T>{ExtractSubmatrixRaw<T>()(data, row, col, std::greater_equal<T>())};
+
+        // std::function<T(T, T)> comparison_op;
+        // if (comparison_type == "equal_to")
+        // {
+        //     comparison_op = std::equal_to<T>();
+        // }
+        // else if (comparison_type == "not_equal_to")
+        // {
+        //     comparison_op = std::not_equal_to<T>();
+        // }
+        // else if (comparison_type == "greater")
+        // {
+        //     comparison_op = std::greater<T>();
+        // }
+        // else if (comparison_type == "less")
+        // {
+        //     comparison_op = std::less<T>();
+        // }
+        // else if (comparison_type == "greater_equal")
+        // {
+        //     comparison_op = std::greater_equal<T>();
+        // }
+        // else if (comparison_type == "less_equal")
+        // {
+        //     comparison_op = std::less_equal<T>();
+        // }
+        // else
+        // {
+        //     throw InvalidComparisonTypeException("The requested comparison type is not supported.");
+        // }
+        return Matrix<T>{ExtractSubmatrixRaw<T>()(data, row, col, row_comparison_op, col_comparison_op)};
     }
 
     /**

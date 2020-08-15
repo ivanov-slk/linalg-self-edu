@@ -55,8 +55,8 @@ public:
             // extract the two input vectors
             // calculate a Householder matrix
             Matrix<T> q_i = create_householder_matrix(
-                q_i_multiply_input.extract_submatrix(i, i).extract_column(0),
-                identity.extract_submatrix(i, i).extract_column(0),
+                q_i_multiply_input.extract_submatrix(i, i, std::greater_equal<T>(), std::greater_equal<T>()).extract_column(0),
+                identity.extract_submatrix(i, i, std::greater_equal<T>(), std::greater_equal<T>()).extract_column(0),
                 i);
 
             // resize the Householder matrix to the input matrix's dimensions
