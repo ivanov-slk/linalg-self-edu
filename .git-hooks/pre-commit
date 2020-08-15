@@ -48,7 +48,6 @@ fi
 # # If there are whitespace errors, print the offending file names and fail.
 # exec git diff-index --check --cached $against --
 
-start_time=$(date +%s)
 echo -e "\n$(printf '%(%Y-%m-%d %H:%M:%S)T\n' -1) [PRE-COMMIT HOOK] Starting..."
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd ${DIR}
@@ -56,6 +55,4 @@ echo "$(printf '%(%Y-%m-%d %H:%M:%S)T\n' -1) [PRE-COMMIT HOOK] in $(pwd)"
 bash run_build.sh
 build_code=$?
 echo -e "$(printf '%(%Y-%m-%d %H:%M:%S)T\n' -1) [PRE-COMMIT HOOK] Finished with exit code ${build_code}\n"
-end_time=$(date +%s)
-echo -e "$(printf '%(%Y-%m-%d %H:%M:%S)T\n' -1) [PRE-COMMIT HOOK] Total time spent: $(($end_time-$start_time)) seconds.\n"
 exit ${build_code} # explicit
