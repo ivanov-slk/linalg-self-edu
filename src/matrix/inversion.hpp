@@ -6,10 +6,9 @@
  * @brief Inverts a matrix.
  * Note: currently implemented only for symmetric eigendecomposable matrices.
  */
-template <Number T>
-class MatrixInverter
+template <Number T> class MatrixInverter
 {
-private:
+  private:
     Matrix<T> invert_diagonal(Matrix<T> matrix) // creates a copy
     {
         int n_rows = matrix.get_shape().first;
@@ -26,7 +25,7 @@ private:
         return matrix;
     }
 
-public:
+  public:
     Matrix<T> operator()(const Matrix<T> &matrix, bool pseudo)
     {
         Matrix<T> out;
@@ -38,7 +37,9 @@ public:
         {
             SVDDecomposer<T> svd;
             svd(matrix);
-            out = svd.matrix_v.transpose().multiply(invert_diagonal(svd.matrix_s).transpose()).multiply(svd.matrix_u.transpose());
+            out = svd.matrix_v.transpose()
+                      .multiply(invert_diagonal(svd.matrix_s).transpose())
+                      .multiply(svd.matrix_u.transpose());
         }
         else
         {

@@ -1,28 +1,26 @@
 #pragma once
-#include <vector>
 #include "../customconcepts.hpp"
+#include <vector>
 
 /**
  * @brief Matrix multiplies two matrix raw representations.
  * Expects that each raw representation can be used as a Matrix<T>.
  */
-template <Number T>
-class MatrixMultiplicatorRaw
+template <Number T> class MatrixMultiplicatorRaw
 {
-public:
-    std::vector<std::vector<T>> operator()(
-        const std::vector<std::vector<T>> &left,
-        const std::vector<std::vector<T>> &right)
+  public:
+    std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &left,
+                                           const std::vector<std::vector<T>> &right)
     {
         std::vector<std::vector<T>> out;
         int n_cols = left.at(0).size();
         int out_rows = left.size();
         int out_cols = right.at(0).size();
-        /** 
+        /**
          * Again, I don't quite like this vector subsetting...
          * Alternatively, you can _transpose_ one of the matrices, multiply element-wise
          * two columns and then std::accumulate() them.
-         * 
+         *
          * Or you can just implement Strassen or similar...
          */
         for (typename std::vector<T>::size_type i = 0; i < out_rows; ++i)

@@ -5,11 +5,10 @@
 /**
  * @brief Makes a diagonal matrix.
  */
-template <Number T>
-class MakeDiagonal
-    // Most of the code here is duplicated. Consider refactoring to lambda or something.
+template <Number T> class MakeDiagonal
+// Most of the code here is duplicated. Consider refactoring to lambda or something.
 {
-public:
+  public:
     /**
      * @brief Makes a diagonal matrix with a single element on the diagonal.
      */
@@ -42,8 +41,9 @@ public:
      * elements on the main diagonal.
      *
      * If the matrix is not a vector, a new matrix is returned,
-     * where all off-(main)-diagonal entries are 0-s. If the matrix is not square, the "main diagonal"
-     * is assumed to be the set of elements with i=j for "i" the row index and "j" the column index.
+     * where all off-(main)-diagonal entries are 0-s. If the matrix is not square, the "main
+     * diagonal" is assumed to be the set of elements with i=j for "i" the row index and "j" the
+     * column index.
      */
     Matrix<T> operator()(const Matrix<T> &vector)
     {
@@ -89,10 +89,9 @@ public:
 /**
  * @brief Makes a matrix with all elements equal to a given value.
  */
-template <Number T>
-class MakeSameElement
+template <Number T> class MakeSameElement
 {
-public:
+  public:
     Matrix<T> operator()(T value, int n_rows, int n_cols)
     {
         std::vector<std::vector<T>> out;
@@ -115,10 +114,9 @@ public:
  * This is implemented for the QR decomposition, so consider generalizing/refactoring it.
  * And consider making the implementation more efficient, since now is sort of terrible.
  */
-template <Number T>
-class FlattenVectorOfMatrices
+template <Number T> class FlattenVectorOfMatrices
 {
-public:
+  public:
     Matrix<T> operator()(const std::vector<std::vector<Matrix<T>>> &matrices)
     {
         // Currently, the checks that the inputs can actually produce a valid matrix are delegated

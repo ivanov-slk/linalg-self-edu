@@ -1,17 +1,16 @@
 #pragma once
-#include <cmath>
-#include <gtest/gtest.h>
+#include "../../src/customconcepts.hpp"
+#include "../../src/exceptions.hpp"
+#include "../../src/matrix/eigendecomposition.hpp"
+#include "../../src/matrix/inversion.hpp"
 #include "../../src/matrix/matrix.hpp"
 #include "../../src/matrix/matrix_factory.hpp"
 #include "../../src/matrix/qr_decomposition.hpp"
-#include "../../src/matrix/eigendecomposition.hpp"
-#include "../../src/matrix/inversion.hpp"
 #include "../../src/matrix/svd_decomposition.hpp"
-#include "../../src/exceptions.hpp"
-#include "../../src/customconcepts.hpp"
+#include <cmath>
+#include <gtest/gtest.h>
 
-template <Number T>
-void compare_two_matrices(const Matrix<T> &first, const Matrix<T> &second)
+template <Number T> void compare_two_matrices(const Matrix<T> &first, const Matrix<T> &second)
 {
     ASSERT_EQ(first.get_shape(), second.get_shape());
     std::vector<std::vector<T>> res_data = first.get_data();

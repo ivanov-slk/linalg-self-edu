@@ -1,14 +1,13 @@
 #pragma once
-#include <vector>
 #include "../customconcepts.hpp"
+#include <vector>
 
 /**
  * @brief Transpose a matrix raw representation.
  */
-template <Number T>
-class Transposer
+template <Number T> class Transposer
 {
-public:
+  public:
     std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data,
                                            const std::pair<int, int> &shape)
     {

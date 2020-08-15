@@ -1,18 +1,16 @@
 #pragma once
-#include <tuple>
 #include "matrix.hpp"
 #include "qr_decomposition.hpp"
+#include <tuple>
 
-template <Number T>
-class SVD2x2Decomposer; // implementation below
+template <Number T> class SVD2x2Decomposer; // implementation below
 
 /**
  * @brief Performs an SVD decomposition using Jacobi rotation method.
  */
-template <Number T>
-class SVDDecomposer
+template <Number T> class SVDDecomposer
 {
-public:
+  public:
     Matrix<T> matrix_u;
     Matrix<T> matrix_v;
     Matrix<T> matrix_s;
@@ -58,14 +56,14 @@ public:
             {
                 for (int j = i + 1; j < n_cols; ++j)
                 {
-                    convergence_status = convergence_status + std::pow(matrix_b.extract_element(i, j), 2) + std::pow(matrix_b.extract_element(j, i), 2);
+                    convergence_status = convergence_status +
+                                         std::pow(matrix_b.extract_element(i, j), 2) +
+                                         std::pow(matrix_b.extract_element(j, i), 2);
 
                     SVD2x2Decomposer<T> svd_2x2;
-                    auto [c1, s1, c2, s2, d1, d2] = svd_2x2(
-                        matrix_b.extract_element(i, i),
-                        matrix_b.extract_element(i, j),
-                        matrix_b.extract_element(j, i),
-                        matrix_b.extract_element(j, j));
+                    auto [c1, s1, c2, s2, d1, d2] =
+                        svd_2x2(matrix_b.extract_element(i, i), matrix_b.extract_element(i, j),
+                                matrix_b.extract_element(j, i), matrix_b.extract_element(j, j));
 
                     // create the right and left rotation matrices
                     Matrix<T> matrix_left_rot = MakeDiagonal<T>()(T(1), n_rows, n_rows);
@@ -81,7 +79,8 @@ public:
                     matrix_right_rot.set_element(s2, j, i);
 
                     // update the decomposition matrices
-                    matrix_b = matrix_left_rot.multiply(matrix_b).multiply(matrix_right_rot.transpose());
+                    matrix_b =
+                        matrix_left_rot.multiply(matrix_b).multiply(matrix_right_rot.transpose());
                     matrix_u = matrix_left_rot.multiply(matrix_u);
                     matrix_v = matrix_right_rot.multiply(matrix_v);
                     counter++;
@@ -110,10 +109,9 @@ public:
  * @brief Helper functor that performs RQ decomposition on 2x2 matrix using Givens rotations.
  * Accepts and returns raw values, not a matrix.
  */
-template <Number T>
-class RQ2x2Decomposer
+template <Number T> class RQ2x2Decomposer
 {
-public:
+  public:
     std::tuple<T, T, T, T, T> operator()(T a, T b, T c, T d)
     {
         T x = 0;
@@ -159,10 +157,9 @@ public:
  * Follows this SO answer with minor modifications:
  * https://scicomp.stackexchange.com/a/28506/36712
  */
-template <Number T>
-class SVD2x2Decomposer
+template <Number T> class SVD2x2Decomposer
 {
-public:
+  public:
     std::tuple<T, T, T, T, T, T> operator()(T a, T b, T c, T d)
     {
         T c1, s1, d1, d2;

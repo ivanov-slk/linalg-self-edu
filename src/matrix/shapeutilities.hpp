@@ -6,10 +6,9 @@
 /**
  * @brief Extracts an element from a matrix's raw data.
  */
-template <Number T>
-class ExtractElementRaw
+template <Number T> class ExtractElementRaw
 {
-public:
+  public:
     T operator()(const std::vector<std::vector<T>> &data, int row, int col)
     {
         T element = data.at(row).at(col);
@@ -20,10 +19,9 @@ public:
 /**
  * @brief Extracts a row from a matrix's raw data.
  */
-template <Number T>
-class ExtractRowRaw
+template <Number T> class ExtractRowRaw
 {
-public:
+  public:
     std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data, int row)
     {
         std::vector<std::vector<T>> out{std::vector<T>{data.at(row)}};
@@ -34,10 +32,9 @@ public:
 /**
  * @brief Extracts a column from a matrix's raw data.
  */
-template <Number T>
-class ExtractColumnRaw
+template <Number T> class ExtractColumnRaw
 {
-public:
+  public:
     std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data, int col)
     {
         std::vector<std::vector<T>> out;
@@ -53,20 +50,17 @@ public:
  * @brief Extracts a matrix raw data without the given row and/or column from a matrix's raw data.
  * @param int row: The row anchor. Starts at zero.
  * @param int col: The column anchor. Starts at zero.
- * @param std::function<T(T, T)> A boolean function that compares two elements of type T. If std::not_equal, then
- * extracts a matrix raw data without the given row and/or column from a matrix's raw data.
- * If std::greater_equal, then extracts a submatrix from the given raw data with (row, col) being
- * the top left element.
+ * @param std::function<T(T, T)> A boolean function that compares two elements of type T. If
+ * std::not_equal, then extracts a matrix raw data without the given row and/or column from a
+ * matrix's raw data. If std::greater_equal, then extracts a submatrix from the given raw data with
+ * (row, col) being the top left element.
  * @return A raw matrix representation without the given row/column.
  */
-template <Number T>
-class ExtractSubmatrixRaw
+template <Number T> class ExtractSubmatrixRaw
 {
-public:
-    std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data,
-                                           int row,
-                                           int col,
-                                           std::function<T(T, T)> row_comparison_op,
+  public:
+    std::vector<std::vector<T>> operator()(const std::vector<std::vector<T>> &data, int row,
+                                           int col, std::function<T(T, T)> row_comparison_op,
                                            std::function<T(T, T)> col_comparison_op)
     {
         std::vector<std::vector<T>> out;

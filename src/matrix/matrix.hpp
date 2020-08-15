@@ -1,22 +1,21 @@
 #pragma once
-#include <concepts>
 #include <cmath>
+#include <concepts>
 #include <functional>
 
 #include "../exceptions.hpp"
 #include "aggregation.hpp"
 #include "arithmetic.hpp"
-#include "shapeutilities.hpp"
 #include "multiplication.hpp"
+#include "shapeutilities.hpp"
 #include "transposition.hpp"
 
 /**
  * @brief A matrix.
  */
-template <Number T>
-class Matrix
+template <Number T> class Matrix
 {
-private:
+  private:
     int n_rows = 0;
     int n_cols = 0;
     std::vector<std::vector<T>> data;
@@ -36,8 +35,10 @@ private:
         return Matrix<T>{Arithmetic<T>()(data, other.data, binary_op)};
     }
 
-public:
-    Matrix() {}
+  public:
+    Matrix()
+    {
+    }
     Matrix(const std::vector<std::vector<T>> &data) : data(data)
     {
         if (data.empty())
@@ -86,7 +87,8 @@ public:
     /**
      * @brief Get the shape of the matrix
      *
-     * @return std::pair<int, int> - `first` is the number of rows, `second` is the number of columns
+     * @return std::pair<int, int> - `first` is the number of rows, `second` is the number of
+     * columns
      */
     std::pair<int, int> get_shape() const
     {
@@ -207,7 +209,8 @@ public:
 
     // Not implemented because of circular includes. Use MatrixInverter<T> directly instead.
     // /**
-    //  * @brief Invert a matrix. Currently implemented only for symmetric matrices via eigendecomosition.
+    //  * @brief Invert a matrix. Currently implemented only for symmetric matrices via
+    //  eigendecomosition.
     //  */
     // Matrix<T>
     // invert()
@@ -298,7 +301,8 @@ public:
     {
         if (row > n_rows - 1)
         {
-            throw BadDimensionsException("The requested row does not exist. This matrix is smaller.");
+            throw BadDimensionsException(
+                "The requested row does not exist. This matrix is smaller.");
         }
         return Matrix<T>{ExtractRowRaw<T>()(data, row)};
     }
@@ -312,7 +316,8 @@ public:
     {
         if (col > n_cols - 1)
         {
-            throw BadDimensionsException("The requested column does not exist. This matrix is smaller.");
+            throw BadDimensionsException(
+                "The requested column does not exist. This matrix is smaller.");
         }
         return Matrix<T>{ExtractColumnRaw<T>()(data, col)};
     }
@@ -340,9 +345,7 @@ public:
      * @param std::function<T(T, T)> col_comparison_op: Comparison function object
      * @return A matrix representing the requested submatrix of this.
      */
-    Matrix<T> extract_submatrix(int row,
-                                int col,
-                                std::function<T(T, T)> row_comparison_op,
+    Matrix<T> extract_submatrix(int row, int col, std::function<T(T, T)> row_comparison_op,
                                 std::function<T(T, T)> col_comparison_op) const
     {
         // row and col must be nonnegative and less than n_rows / n_cols respectively
@@ -378,9 +381,11 @@ public:
         // }
         // else
         // {
-        //     throw InvalidComparisonTypeException("The requested comparison type is not supported.");
+        //     throw InvalidComparisonTypeException("The requested comparison type is not
+        //     supported.");
         // }
-        return Matrix<T>{ExtractSubmatrixRaw<T>()(data, row, col, row_comparison_op, col_comparison_op)};
+        return Matrix<T>{
+            ExtractSubmatrixRaw<T>()(data, row, col, row_comparison_op, col_comparison_op)};
     }
 
     /**
@@ -427,8 +432,7 @@ public:
     }
 };
 
-template <Number T>
-bool operator==(const Matrix<T> lhs, const Matrix<T> rhs)
+template <Number T> bool operator==(const Matrix<T> lhs, const Matrix<T> rhs)
 {
     return lhs.equals(rhs);
 }

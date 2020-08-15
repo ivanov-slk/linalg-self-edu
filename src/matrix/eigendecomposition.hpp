@@ -4,13 +4,12 @@
 
 /**
  * @brief Decomposes a matrix in a matrix of eigenvectors and diagonal matrix of eigenvalues.
- * 
+ *
  * The implementation is *slow*. Seriously consider refactoring it to something acceptable.
  */
-template <Number T>
-class EigenDecomposer
+template <Number T> class EigenDecomposer
 {
-public:
+  public:
     Matrix<T> eigenvectors;
     Matrix<T> eigenvalues;
     void operator()(const Matrix<T> &matrix)

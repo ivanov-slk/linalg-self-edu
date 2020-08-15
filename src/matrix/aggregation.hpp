@@ -1,16 +1,15 @@
 #pragma once
-#include <vector>
+#include "../customconcepts.hpp"
 #include <numeric>
 #include <ranges>
-#include "../customconcepts.hpp"
+#include <vector>
 
 /**
  * @brief Sums a matrix along a given axis.
  */
-template <Number T>
-class SumRaw
+template <Number T> class SumRaw
 {
-private:
+  private:
     std::vector<std::vector<T>> sum_columns(std::vector<std::vector<T>> data, T power)
     {
         std::vector<std::vector<T>> out;
@@ -39,10 +38,12 @@ private:
             int counter = 0;
             for (typename std::vector<T>::size_type j = 0; j < data[i].size(); ++j)
             {
-                if (first == true) {
+                if (first == true)
+                {
                     sum_row.push_back(std::pow(data[i][j], power));
                 }
-                else {
+                else
+                {
                     sum_row.at(counter) += std::pow(data[i][j], power);
                 }
                 ++counter;
@@ -70,7 +71,7 @@ private:
         return out;
     }
 
-public:
+  public:
     std::vector<std::vector<T>> operator()(std::vector<std::vector<T>> data, int axis, T power)
     {
         if (axis == 0)
