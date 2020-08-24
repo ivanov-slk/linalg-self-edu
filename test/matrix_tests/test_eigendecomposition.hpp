@@ -20,6 +20,7 @@ TEST(EigendecompositionTests, Eigendecomposition1)
             {7., 4., -5.},
             {3., -5., 6.}}};
     EigenDecomposer<double> testable;
+
     Matrix<double> correct_vec{
         std::vector<std::vector<double>>{
             {0.36954564, -0.62879236, -0.68414629}, // tensorflow and numpy have different signs
@@ -32,11 +33,11 @@ TEST(EigendecompositionTests, Eigendecomposition1)
             {0., 0., -7.00792852}}};
 
     // act
-    testable(input_matrix);
+        Eigendecomposition<double> output = testable(input_matrix);
 
     // assert
-    compare_two_matrices(correct_vec, testable.eigenvectors);
-    compare_two_matrices(correct_val, testable.eigenvalues);
+    compare_two_matrices(correct_vec, output.eigenvectors);
+    compare_two_matrices(correct_val, output.eigenvalues);
 }
 
 TEST(EigendecompositionTests, Eigendecomposition2)
@@ -63,9 +64,9 @@ TEST(EigendecompositionTests, Eigendecomposition2)
             {0., 0., 0., -3.52904455}}};
 
     // act
-    testable(input_matrix);
+        Eigendecomposition<double> output = testable(input_matrix);
 
     // assert
-    compare_two_matrices(correct_vec, testable.eigenvectors);
-    compare_two_matrices(correct_val, testable.eigenvalues);
+    compare_two_matrices(correct_vec, output.eigenvectors);
+    compare_two_matrices(correct_val, output.eigenvalues);
 }
