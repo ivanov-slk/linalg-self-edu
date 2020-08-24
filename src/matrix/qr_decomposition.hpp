@@ -4,6 +4,12 @@
 #include "matrix.hpp"
 #include "matrix_factory.hpp"
 
+template <Number T>
+struct QRDecomposition {
+    Matrix<T> matrix_q;
+    Matrix<T> matrix_r;
+};
+
 /**
  * @brief Performs a QR decomposition on a matrix.
  *
@@ -11,12 +17,11 @@
  * Note: the implementation follows
  * https://en.wikipedia.org/wiki/QR_decomposition#Using_Householder_reflections.
  */
-template<Number T>
-class QRDecomposer
-{
-  private:
-    Matrix<T> create_householder_matrix(const Matrix<T>& vector, const Matrix<T>& basis, int k)
-    {
+template <Number T>
+class QRDecomposer {
+   private:
+    Matrix<T> create_householder_matrix(const Matrix<T>& vector,
+                                        const Matrix<T>& basis, int k) {
         // calculate alpha = sign(x[k])||x||
         // the first element of `vector` is the k-th of the decomposable matrix
         T sign_alpha = (vector.extract_element(0, 0) < 0) ? -1. : 1.;
@@ -31,19 +36,17 @@ class QRDecomposer
 
         // calculate the Householder matrix
         int householder_rows = vector.get_shape().first;
-        Matrix<T> basis_matrix = MakeDiagonal<T>()(T(1.),
-                                                   householder_rows,
-                                                   householder_rows); // square
-        Matrix<T> householder_matrix =
-          basis_matrix.subtract(unit_vector.multiply(unit_vector.transpose()).el_multiply(2.));
+        Matrix<T> basis_matrix = MakeDiagonal<T>()(T(1.), householder_rows,
+                                                   householder_rows);  // square
+        Matrix<T> householder_matrix = basis_matrix.subtract(
+            unit_vector.multiply(unit_vector.transpose()).el_multiply(2.));
         return householder_matrix;
     }
 
-  public:
-    Matrix<T> matrix_q;
-    Matrix<T> matrix_r;
-    void operator()(const Matrix<T>& matrix)
-    {
+   public:
+    QRDecomposition<T> operator()(const Matrix<T>& matrix) {
+        Matrix<T> matrix_q;
+        Matrix<T> matrix_r;
         // check dimensions and number of iterations
         int n_rows = matrix.get_shape().first;
         int n_cols = matrix.get_shape().second;
@@ -51,19 +54,22 @@ class QRDecomposer
         // create identity matrix
         Matrix<T> identity = MakeDiagonal<T>()(T(1), n_rows, n_cols);
         std::vector<Matrix<T>> matrices_q;
-        Matrix<T> q_i_multiply_input = matrix; // copy (!!!), initialize
+        Matrix<T> q_i_multiply_input = matrix;  // copy (!!!), initialize
 
         // loop over the above number
         for (int i = 0; i < n_iter; ++i) {
             // extract the two input vectors
             // calculate a Householder matrix
             Matrix<T> q_i = create_householder_matrix(
-              q_i_multiply_input
-                .extract_submatrix(i, i, std::greater_equal<T>(), std::greater_equal<T>())
-                .extract_column(0),
-              identity.extract_submatrix(i, i, std::greater_equal<T>(), std::greater_equal<T>())
-                .extract_column(0),
-              i);
+                q_i_multiply_input
+                    .extract_submatrix(i, i, std::greater_equal<T>(),
+                                       std::greater_equal<T>())
+                    .extract_column(0),
+                identity
+                    .extract_submatrix(i, i, std::greater_equal<T>(),
+                                       std::greater_equal<T>())
+                    .extract_column(0),
+                i);
 
             // resize the Householder matrix to the input matrix's
             // dimensions
@@ -71,9 +77,9 @@ class QRDecomposer
             Matrix<T> upper_zeroes = MakeSameElement<T>()(T(0), i, n_rows - i);
             Matrix<T> lower_zeroes = MakeSameElement<T>()(T(0), n_rows - i, i);
             std::vector<std::vector<Matrix<T>>> resize_placeholder{
-                { upper_identity, upper_zeroes }, { lower_zeroes, q_i }
-            };
-            Matrix<T> q_i_resized = FlattenVectorOfMatrices<T>()(resize_placeholder);
+                {upper_identity, upper_zeroes}, {lower_zeroes, q_i}};
+            Matrix<T> q_i_resized =
+                FlattenVectorOfMatrices<T>()(resize_placeholder);
 
             // store the Householder matrix
             q_i_multiply_input = q_i_resized.multiply(q_i_multiply_input);
@@ -90,6 +96,7 @@ class QRDecomposer
         for (auto& matrix : matrices_q) {
             matrix_q = matrix.multiply(matrix_q);
         }
-        matrix_q = matrix_q.transpose(); // expensive
+        matrix_q = matrix_q.transpose();  // expensive
+        return QRDecomposition<T>{matrix_q, matrix_r};
     }
 };
