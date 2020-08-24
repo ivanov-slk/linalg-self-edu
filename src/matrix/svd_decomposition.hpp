@@ -1,32 +1,38 @@
 #pragma once
-#include "matrix.hpp"
-#include "qr_decomposition.hpp"
 #include <tuple>
 
-template <Number T> class SVD2x2Decomposer; // implementation below
+#include "matrix.hpp"
+#include "qr_decomposition.hpp"
+
+template <Number T>
+class SVD2x2Decomposer;  // implementation below
+
+template <Number T>
+struct SVDDecomposition {
+    Matrix<T> matrix_u;
+    Matrix<T> matrix_s;
+    Matrix<T> matrix_v;
+};
 
 /**
  * @brief Performs an SVD decomposition using Jacobi rotation method.
  */
-template <Number T> class SVDDecomposer
-{
-  public:
-    Matrix<T> matrix_u;
-    Matrix<T> matrix_v;
-    Matrix<T> matrix_s;
-    void operator()(const Matrix<T> &matrix)
-    {
+template <Number T>
+class SVDDecomposer {
+   public:
+    SVDDecomposition<T> operator()(const Matrix<T> &matrix) {
+        Matrix<T> matrix_u;
+        Matrix<T> matrix_v;
+        Matrix<T> matrix_s;
+
         // get shape and transpose if necessary
         int n_rows = matrix.get_shape().first;
         int n_cols = matrix.get_shape().second;
         bool transpose = false;
         Matrix<T> matrix_b;
-        if (n_rows >= n_cols)
-        {
+        if (n_rows >= n_cols) {
             matrix_b = matrix;
-        }
-        else
-        {
+        } else {
             matrix_b = matrix.transpose();
             std::swap(n_rows, n_cols);
             transpose = true;
@@ -44,18 +50,15 @@ template <Number T> class SVDDecomposer
 
         // Set the convergence criteria
         T eps = 0.000000000001;
-        T n_squared = matrix_b.sum(-1, 2).extract_element(0, 0); // sum() always returns a matrix
+        T n_squared = matrix_b.sum(-1, 2).extract_element(0, 0);  // sum() always returns a matrix
         T tolerance = eps * eps * n_squared;
         T convergence_status = T(0);
-        int counter = 0; // not needed, but kept for debugging
+        int counter = 0;  // not needed, but kept for debugging
 
-        do
-        {
+        do {
             convergence_status = T(0);
-            for (int i = 0; i < n_cols - 1; ++i)
-            {
-                for (int j = i + 1; j < n_cols; ++j)
-                {
+            for (int i = 0; i < n_cols - 1; ++i) {
+                for (int j = i + 1; j < n_cols; ++j) {
                     convergence_status = convergence_status +
                                          std::pow(matrix_b.extract_element(i, j), 2) +
                                          std::pow(matrix_b.extract_element(j, i), 2);
@@ -92,16 +95,14 @@ template <Number T> class SVDDecomposer
         matrix_s = MakeDiagonal<T>()(matrix_b);
 
         // transpose back if necessary
-        if (transpose == false)
-        {
+        if (transpose == false) {
             matrix_u = matrix_u.transpose();
-        }
-        else
-        {
+        } else {
             matrix_s = matrix_s.transpose();
             matrix_v = matrix_v.transpose();
             std::swap(matrix_u, matrix_v);
         }
+        return SVDDecomposition{matrix_u, matrix_s, matrix_v};
     }
 };
 
@@ -109,11 +110,10 @@ template <Number T> class SVDDecomposer
  * @brief Helper functor that performs RQ decomposition on 2x2 matrix using Givens rotations.
  * Accepts and returns raw values, not a matrix.
  */
-template <Number T> class RQ2x2Decomposer
-{
-  public:
-    std::tuple<T, T, T, T, T> operator()(T a, T b, T c, T d)
-    {
+template <Number T>
+class RQ2x2Decomposer {
+   public:
+    std::tuple<T, T, T, T, T> operator()(T a, T b, T c, T d) {
         T x = 0;
         T y = 0;
         T z = 0;
@@ -121,8 +121,7 @@ template <Number T> class RQ2x2Decomposer
         T s2 = 0;
 
         // std::cout << "my c: " << c << "\n";
-        if (c == 0)
-        {
+        if (c == 0) {
             x = a;
             y = b;
             z = d;
@@ -157,11 +156,10 @@ template <Number T> class RQ2x2Decomposer
  * Follows this SO answer with minor modifications:
  * https://scicomp.stackexchange.com/a/28506/36712
  */
-template <Number T> class SVD2x2Decomposer
-{
-  public:
-    std::tuple<T, T, T, T, T, T> operator()(T a, T b, T c, T d)
-    {
+template <Number T>
+class SVD2x2Decomposer {
+   public:
+    std::tuple<T, T, T, T, T, T> operator()(T a, T b, T c, T d) {
         T c1, s1, d1, d2;
 
         // Calculate RQ decomopsition of A
@@ -177,7 +175,7 @@ template <Number T> class SVD2x2Decomposer
         gamma = numer == 0 ? 1 : gamma;
         T zeta = numer / gamma;
 
-        T sign_zeta = (numer < 0) ? -1 : 1; // numer is never zero, see above
+        T sign_zeta = (numer < 0) ? -1 : 1;  // numer is never zero, see above
         T t = 2 * sign_zeta / (std::abs(zeta) + std::sqrt(zeta * zeta + 4));
 
         // Calculate sines and cosines
@@ -213,3 +211,11 @@ template <Number T> class SVD2x2Decomposer
         return std::tuple<T, T, T, T, T, T>{c1, s1, c2, s2, d1, d2};
     }
 };
+
+/**
+ * @brief Utility to sort an SVD using permutation matrices.
+ *
+ * Consider moving it to separate file if it is going to be used outside the SVD script.
+ */
+template <Number T>
+class SVDDecomposerSorted {};
