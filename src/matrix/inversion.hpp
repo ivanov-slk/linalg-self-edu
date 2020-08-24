@@ -31,16 +31,21 @@ class MatrixInverter {
         }
         if (pseudo == true) {
             SVDDecomposer<T> svd;
-            svd(matrix);
-            out = svd.matrix_v.transpose()
-                      .multiply(invert_diagonal(svd.matrix_s).transpose())
-                      .multiply(svd.matrix_u.transpose());
+            SVDDecomposition svd_output = svd(matrix);
+            out =
+                svd_output.matrix_v.transpose()
+                    .multiply(invert_diagonal(svd_output.matrix_s).transpose())
+                    .multiply(svd_output.matrix_u.transpose());
         } else {
             EigenDecomposer<T> eigendecomposer;
-            eigendecomposer(matrix);
-            Matrix<T> eigenvalues_inverse = invert_diagonal(eigendecomposer.eigenvalues);
-            out = eigendecomposer.eigenvectors.multiply(eigenvalues_inverse)
-                      .multiply(eigendecomposer.eigenvectors.transpose());
+            Eigendecomposition<T> eigendecomposition_output =
+                eigendecomposer(matrix);
+            Matrix<T> eigenvalues_inverse =
+                invert_diagonal(eigendecomposition_output.eigenvalues);
+            out = eigendecomposition_output.eigenvectors
+                      .multiply(eigenvalues_inverse)
+                      .multiply(
+                          eigendecomposition_output.eigenvectors.transpose());
         }
         return out;
     }
