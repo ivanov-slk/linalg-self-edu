@@ -8,6 +8,9 @@ template <Number T>
 class SVD2x2Decomposer;  // implementation below
 
 template <Number T>
+class SVDDecompositionSorter;  // implementation below
+
+template <Number T>
 struct SVDDecomposition {
     Matrix<T> matrix_u;
     Matrix<T> matrix_s;
@@ -108,7 +111,62 @@ class SVDDecomposer {
             matrix_v = matrix_v.transpose();
             std::swap(matrix_u, matrix_v);
         }
-        return SVDDecomposition{matrix_u, matrix_s, matrix_v};
+        // return SVDDecomposition{matrix_u, matrix_s, matrix_v};
+        return SVDDecompositionSorter<T>()(
+            SVDDecomposition{matrix_u, matrix_s, matrix_v});
+    }
+};
+
+/**
+ * @brief Utility to sort an SVD using permutation matrices.
+ */
+template <Number T>
+class SVDDecompositionSorter {
+   public:
+    SVDDecomposition<T> operator()(const SVDDecomposition<T> &svd_input) {
+        // construct sorted vector of indices
+        // (https://stackoverflow.com/a/40183830/10785101)
+        std::vector<T> singular_values;
+        int matrix_s_rows = svd_input.matrix_s.get_shape().first;
+        int matrix_s_cols = svd_input.matrix_s.get_shape().second;
+        int n_iter =
+            (matrix_s_rows < matrix_s_cols) ? matrix_s_rows : matrix_s_cols;
+        for (int i = 0; i < n_iter; ++i) {
+            singular_values.push_back(svd_input.matrix_s.extract_element(i, i));
+        }
+
+        std::vector<int> sv_indices(singular_values.size());
+        int x = 0;
+        std::iota(sv_indices.begin(), sv_indices.end(), 0);
+        std::sort(sv_indices.begin(), sv_indices.end(), [&](int i, int j) {
+            return singular_values[i] > singular_values[j];  // descending
+        });
+
+        // produce row and column permutation matrices
+        Matrix<T> matrix_row_perm =
+            MakeSameElement<T>()(T(0), matrix_s_rows, matrix_s_rows);
+        Matrix<T> matrix_col_perm =
+            MakeSameElement<T>()(T(0), matrix_s_cols, matrix_s_cols);
+
+        for (int i = 0; i < matrix_s_rows; ++i) {
+            int col_index = (i < n_iter) ? sv_indices.at(i) : i;
+            matrix_row_perm.set_element(T(1), i, col_index);
+        }
+
+        for (int j = 0; j < matrix_s_cols; ++j) {
+            int row_index = (j < n_iter) ? sv_indices.at(j) : j;
+            matrix_col_perm.set_element(T(1), j, row_index);
+        }
+
+        // multiply and return
+
+        return SVDDecomposition<T>{matrix_row_perm.multiply(svd_input.matrix_u)
+                                       .multiply(matrix_row_perm.transpose()),
+                                   matrix_row_perm.multiply(svd_input.matrix_s)
+                                       .multiply(matrix_col_perm),
+                                   matrix_col_perm.transpose()
+                                       .multiply(svd_input.matrix_v)
+                                       .multiply(matrix_col_perm)};
     }
 };
 
@@ -218,12 +276,3 @@ class SVD2x2Decomposer {
         return std::tuple<T, T, T, T, T, T>{c1, s1, c2, s2, d1, d2};
     }
 };
-
-/**
- * @brief Utility to sort an SVD using permutation matrices.
- *
- * Consider moving it to separate file if it is going to be used outside the SVD
- * script.
- */
-template <Number T>
-class SVDDecomposerSorted {};
