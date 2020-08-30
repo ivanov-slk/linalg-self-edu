@@ -111,9 +111,8 @@ class SVDDecomposer {
             matrix_v = matrix_v.transpose();
             std::swap(matrix_u, matrix_v);
         }
-        // return SVDDecomposition{matrix_u, matrix_s, matrix_v};
         return SVDDecompositionSorter<T>()(
-            SVDDecomposition{matrix_u, matrix_s, matrix_v});
+            SVDDecomposition<T>{matrix_u, matrix_s, matrix_v});
     }
 };
 
@@ -155,18 +154,15 @@ class SVDDecompositionSorter {
 
         for (int j = 0; j < matrix_s_cols; ++j) {
             int row_index = (j < n_iter) ? sv_indices.at(j) : j;
-            matrix_col_perm.set_element(T(1), j, row_index);
+            matrix_col_perm.set_element(T(1), row_index, j);
         }
 
         // multiply and return
-
-        return SVDDecomposition<T>{matrix_row_perm.multiply(svd_input.matrix_u)
-                                       .multiply(matrix_row_perm.transpose()),
-                                   matrix_row_perm.multiply(svd_input.matrix_s)
-                                       .multiply(matrix_col_perm),
-                                   matrix_col_perm.transpose()
-                                       .multiply(svd_input.matrix_v)
-                                       .multiply(matrix_col_perm)};
+        return SVDDecomposition<T>{
+            svd_input.matrix_u.multiply(matrix_row_perm.transpose()),
+            matrix_row_perm.multiply(svd_input.matrix_s)
+                .multiply(matrix_col_perm),
+            matrix_col_perm.transpose().multiply(svd_input.matrix_v)};
     }
 };
 
