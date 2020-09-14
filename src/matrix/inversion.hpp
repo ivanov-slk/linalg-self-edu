@@ -4,7 +4,6 @@
 
 /**
  * @brief Inverts a matrix.
- * Note: currently implemented only for symmetric eigendecomposable matrices.
  */
 template <Number T>
 class MatrixInverter {
