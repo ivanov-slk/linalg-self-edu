@@ -43,3 +43,6 @@ release
 *.jpg
 *.pdf
 *.bnp
+
+# Custom
+Dockerfile*
